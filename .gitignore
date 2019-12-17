@@ -123,3 +123,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+out/
+csv-out/
+monica-data/climate-data/isimip/
