@@ -29,7 +29,7 @@ def main():
 
     config = {
         "port": "7777",
-        "server": "cluster1",
+        "server": "localhost",
         "shared_id": None
     }
     if len(sys.argv) > 1:

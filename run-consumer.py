@@ -51,20 +51,32 @@ PATHS = {
         "local-path-to-output-dir": "C:/zalf-rpm/monica_example/out/",
         "local-path-to-csv-output-dir": "C:/zalf-rpm/monica_example/csv-out/"
     },
+    "mbm": {
+        "host": "localhost",
+        "local-path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/",
+        "local-path-to-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/out/",
+        "local-path-to-csv-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/csv-out/"
+    },
+    "hpc": {
+        "host": "login01.cluster.zalf.de",
+        "local-path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/",
+        "local-path-to-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/out/",
+        "local-path-to-csv-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/csv-out/"
+    },
     "remote": {
         "local-path-to-data-dir": "D:/awork/zalf/monica/monica_example/monica-data/data/",
         "local-path-to-output-dir": "D:/awork/zalf/monica/monica_example/out/",
         "local-path-to-csv-output-dir": "D:/awork/zalf/monica/monica_example/csv-out/"
     }
 }
-LOCAL_RUN_HOST = "login01.cluster.zalf.de" #"localhost"
-PORT = "7779"
+LOCAL_RUN_HOST = "localhost"
+PORT = "7777"
 TEMPLATE_SOIL_PATH = "{local_path_to_data_dir}germany/buek1000_1000_gk5.asc"
 
 def create_output(result):
     "create output structure for single run"
 
-    cm_count_to_vals = defaultdict(dict)
+    year_to_vals = defaultdict(dict)
     if len(result.get("data", [])) > 0 and len(result["data"][0].get("results", [])) > 0:
 
         for data in result.get("data", []):
@@ -91,18 +103,13 @@ def create_output(result):
                     else:
                         vals[name] = val
 
-                if "CM-count" not in vals:
-                    print("Missing CM-count in result section. Skipping results section.")
+                if "Year" not in vals:
+                    print("Missing Year in result section. Skipping results section.")
                     continue
 
-                cm_count_to_vals[vals["CM-count"]].update(vals)
-    
+                year_to_vals[vals["Year"]].update(vals)
 
-    for cmc in sorted(cm_count_to_vals.keys()):
-        if cm_count_to_vals[cmc]["last-doy"] >= 365:
-            del cm_count_to_vals[cmc]
-
-    return cm_count_to_vals
+    return year_to_vals
 
 
 def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, path_to_csv_output_dir, setup_id):
@@ -115,10 +122,7 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
 
             if not os.path.isfile(path_to_row_file):
                 with open(path_to_row_file, "w") as _:
-                    _.write("CM-count,row,col,Crop,Year,\
-                    Globrad-sum,Tavg,Precip-sum,LAI-max,Yield-last,AbBiom-last,\
-                    GPP-sum,NPP-sum,NEP-sum,Ra-sum,Rh-sum,G-iso,G-mono,Cycle-length,\
-                    AbBiom-final,TraDef-avg,Stage-harv\n")
+                    _.write("Year,row,col,AbBiom-max,Precip-sum,SumExportedCutBiomass-last,ShootBiom-max,LeafBiom-max\n")
 
             with open(path_to_row_file, 'a') as _:
                 writer = csv.writer(_, delimiter=",")
@@ -129,31 +133,16 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
                         if rcd_val != -9999 and len(rcd_val) > 0:
                             cell_data = rcd_val[0]
 
-                            for cm_count, data in cell_data.items():
+                            for year, data in cell_data.items():
                                 row_ = [
-                                    cm_count,
+                                    year,
                                     row,
                                     col,
-                                    data["Crop"],
-                                    data["Year"],
-                                    data["Globrad-sum"],
-                                    data["Tavg"],
+                                    data["AbBiom-max"],
                                     data["Precip-sum"],
-                                    data["LAI-max"],
-                                    data["Yield-last"],
-                                    data["AbBiom-last"],
-                                    data["GPP-sum"],
-                                    data["NPP-sum"],
-                                    data["NEP-sum"],
-                                    data["Ra-sum"],
-                                    data["Rh-sum"],
-                                    data["G-iso"],
-                                    data["G-mono"],
-                                    data["Cycle-length"]#,
-
-                                    #data["AbBiom-final"],
-                                    #data["TraDef-avg"],
-                                    #data["Stage-harv"]
+                                    data["SumExportedCutBiomass-last"],
+                                    data["ShootBiom-max"],
+                                    data["LeafBiom-max"]
                                 ]
                                 writer.writerow(row_)
 
@@ -165,27 +154,12 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
     make_dict_nparr = lambda: defaultdict(lambda: np.full((ncols,), -9999, dtype=np.float))
 
     output_grids = {
-        "Globrad-sum": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "Tavg": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "Precip-sum": {"data" : make_dict_nparr(), "cast-to": "int"},
-        "LAI-max": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "Yield-last": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "AbBiom-last": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "GPP-sum": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "NPP-sum": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "NEP-sum": {"data" : make_dict_nparr(), "cast-to": "int"},
-        "Ra-sum": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "Rh-sum": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "G-iso": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "G-mono": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "Cycle-length": {"data" : make_dict_nparr(), "cast-to": "int"},
-
-        #"AbBiom-final": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        #"TraDef-avg": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 3},
-        #"Stage-harv": {"data" : make_dict_nparr(), "cast-to": "int"}
+        "AbBiom-max": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
+        "Precip-sum": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
+        "SumExportedCutBiomass-last": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
+        "ShootBiom-max": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
+        "LeafBiom-max": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1}
     }
-
-    cmc_to_crop = {}
 
     is_no_data_row = True
     # skip this part if we write just a nodata line
@@ -198,25 +172,22 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
                     no_data_cols += 1
                     continue
                 else:
-                    cmc_and_year_to_vals = defaultdict(lambda: defaultdict(list))
+                    year_to_vals = defaultdict(lambda: defaultdict(list))
                     for cell_data in rcd_val:
-                        for cm_count, data in cell_data.items():
-                            for key, val in output_grids.items():
-                                if cm_count not in cmc_to_crop:
-                                    cmc_to_crop[cm_count] = data["Crop"]
-
+                        for year, data in cell_data.items():
+                            for key in output_grids.keys():
                                 if key in data:
-                                    cmc_and_year_to_vals[(cm_count, data["Year"])][key].append(data[key])
+                                    year_to_vals[data["Year"]][key].append(data[key])
                                 else:
-                                    cmc_and_year_to_vals[(cm_count, data["Year"])][key] #just make sure at least an empty list is in there
+                                    year_to_vals[data["Year"]][key] #just make sure at least an empty list is in there
 
-                    for (cm_count, year), key_to_vals in cmc_and_year_to_vals.items():
+                    for year, key_to_vals in year_to_vals.items():
                         for key, vals in key_to_vals.items():
                             output_vals = output_grids[key]["data"]
                             if len(vals) > 0:
-                                output_vals[(cm_count, year)][col] = sum(vals) / len(vals)
+                                output_vals[year][col] = sum(vals) / len(vals)
                             else:
-                                output_vals[(cm_count, year)][col] = -9999
+                                output_vals[year][col] = -9999
                                 #no_data_cols += 1
 
         is_no_data_row = no_data_cols == ncols
@@ -230,7 +201,6 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
             file_.write(rowstr +  "\n")
 
     for key, y2d_ in output_grids.items():
-
         y2d = y2d_["data"]
         cast_to = y2d_["cast-to"]
         digits = y2d_.get("digits", 0)
@@ -239,11 +209,8 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
         else:
             mold = lambda x: str(round(x, digits))
 
-        for (cm_count, year), row_arr in y2d.items():
-
-            crop = cmc_to_crop[cm_count]    
-            crop = crop.replace("/", "").replace(" ", "")
-            path_to_file = path_to_output_dir + crop + "_" + key + "_" + str(year) + "_" + str(cm_count) + ".asc"
+        for year, row_arr in y2d.items():
+            path_to_file = path_to_output_dir + key + "_" + str(year) + ".asc"
 
             if not os.path.isfile(path_to_file):
                 with open(path_to_file, "w") as _:
@@ -278,7 +245,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     "collect data from workers"
 
     config = {
-        "user": "remote" if LOCAL_RUN else "container",
+        "user": "mbm" if LOCAL_RUN else "container",
         "port": server["port"] if server["port"] else PORT,
         "server": server["server"] if server["server"] else LOCAL_RUN_HOST, 
         "start-row": "0",
@@ -445,13 +412,13 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
 
                     if len(results) > 0:
                         writer.writerow([orig_spec.replace("\"", "")])
-                        for row in monica_io.write_output_header_rows(output_ids,
+                        for row in monica_io3.write_output_header_rows(output_ids,
                                                                       include_header_row=True,
                                                                       include_units_row=True,
                                                                       include_time_agg=False):
                             writer.writerow(row)
 
-                        for row in monica_io.write_output(output_ids, results):
+                        for row in monica_io3.write_output(output_ids, results):
                             writer.writerow(row)
 
                     writer.writerow([])
@@ -464,14 +431,14 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
 
     while not leave:
         try:
-            start_time_recv = timeit.default_timer()
+            #start_time_recv = timeit.default_timer()
             msg = socket.recv_json(encoding="latin-1")
-            elapsed = timeit.default_timer() - start_time_recv
-            print("time to receive message" + str(elapsed))
-            start_time_proc = timeit.default_timer()
+            #elapsed = timeit.default_timer() - start_time_recv
+            #print("time to receive message" + str(elapsed))
+            #start_time_proc = timeit.default_timer()
             leave = process_message(msg)
-            elapsed = timeit.default_timer() - start_time_proc
-            print("time to process message" + str(elapsed))
+            #elapsed = timeit.default_timer() - start_time_proc
+            #print("time to process message" + str(elapsed))
         except Exception as e:
             print("Exception:", e)
             continue
@@ -481,6 +448,5 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
 
 if __name__ == "__main__":
     run_consumer()
-#main()
 
 
