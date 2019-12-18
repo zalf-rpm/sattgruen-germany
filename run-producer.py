@@ -67,7 +67,7 @@ PATHS = {
         "path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/" # mounted path to archive or hard drive with data 
     },
     "hpc-remote": {
-        "include-file-base-path": "/beegfs/common/GitHub/zalf-lsa/monica-parameters/",
+        "include-file-base-path": "/beegfs/common/GitHub/zalf-rpm/monica-parameters/",
         "path-to-climate-dir": "/beegfs/common/data/climate/", 
         "monica-path-to-climate-dir": "/monica_data/climate-data/", 
         "path-to-data-dir": "/beegfs/common/data/" 
