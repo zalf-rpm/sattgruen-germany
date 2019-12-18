@@ -70,7 +70,7 @@ PATHS = {
         "include-file-base-path": "/beegfs/common/GitHub/zalf-lsa/monica-parameters/",
         "path-to-climate-dir": "/beegfs/common/data/climate/", 
         "monica-path-to-climate-dir": "/monica_data/climate-data/", 
-        "path-to-data-dir": "/beegfs/common/data/germany/" 
+        "path-to-data-dir": "/beegfs/common/data/" 
     },
     "container": {
         "include-file-base-path": "/home/monica-parameters/", # monica parameter location in docker image
