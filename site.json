@@ -1,10 +1,10 @@
 {
   "SiteParameters": {
-    "Latitude": 52.80939865112305,
-    "Slope": 0,
-    "HeightNN": [0 , "m"],
-    "NDeposition": 30,
-		
+    "Latitude": 51.39,
+    "Slope": 0.02,
+    "HeightNN": [213 , "m"],
+    "NDeposition": 0,
+    
     "SoilProfileParameters": []
   },
 	

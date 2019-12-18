@@ -1,67 +1,12 @@
-  {
+{
 	"crops": {
-		"CLV": {
-			"is-winter-crop": false,
-			"cropParams": {
-				"species"	: ["include-from-file", "crops/rye-grass.json"],
-				"cultivar":{    "=": 	 ["include-from-file", "crops/rye-grass/.json"],
-					"OrganSenescenceRate":[  
-						[  
-						  0.011,
-						  0,
-						  0,
-						  0
-						],
-						[  
-						  0.01257,
-						  0,
-						  0,
-						  0
-						],
-						[  
-						  0.037,
-						  0.01,
-						  0,
-						  0.03
-						],
-						[  
-						  0.048,
-						  0.03,
-						  0.03,
-						  0.03
-						],
-						[  
-						  0.06,
-						  0.029999999999999999,
-						  0.05,
-						  0.03
-						],
-						[  
-						  0.05,
-						  0.029999999999999999,
-						  0.04,
-						  0.015
-						]
-					  ]
-				}
-			},
-			"residueParams": ["include-from-file", "crop-residues/grass-ley.json"]
-		},
 		"CLALF": {
 			"is-winter-crop": false,
 			"cropParams": {
-				"species":   ["include-from-file", "crops/clover-grass-ley.json"],
-				"cultivar":  ["include-from-file", "crops/clover-grass-ley/.json"]
+				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-ley.json"],
+				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/.json"]
 			},
 			"residueParams": ["include-from-file", "crop-residues/rye.json"]
-		},
-		"ALF": {
-			"is-winter-crop": false,
-			"cropParams": {
-				"species": ["include-from-file", "crops/alfalfa.json"],
-				"cultivar": ["include-from-file", "crops/alfalfa/.json"]
-			},
-			"residueParams": ["include-from-file", "crop-residues/alfalfa.json"]
 		}
 	},
 	
@@ -73,7 +18,7 @@
 	"cropRotation": [
 		{
 			"worksteps": [
-				{"date": "XXXX-02-06", "type": "Sowing", "crop": ["ref", "crops", "ALF"] }
+				{"date": "XXXX-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
 			]
 		},
 		{
@@ -82,7 +27,7 @@
 					"date": "0000-03-10",
 					"type": "MineralFertilization",	
 					"amount": [60.0, "kg N"],	
-					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
+					"partition": ["ref", "fert-params", "AN"]
 				},					
 			{
 				"date": "0000-09-05", 
@@ -104,8 +49,6 @@
 
 	"CropParameters": {
 		"=": ["include-from-file", "general/crop.json"],
-		"__enable_Photosynthesis_WangEngelTemperatureResponse__": false,
-		"__enable_T_response_leaf_expansion__": false,
-		"__enable_hourly_FvCB_photosynthesis__": true
+		"__enable_T_response_leaf_expansion__": false
 	}
 }

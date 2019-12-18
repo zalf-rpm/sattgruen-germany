@@ -16,9 +16,6 @@
 # Copyright (C: Leibniz Centre for Agricultural Landscape Research (ZALF)
 
 import sys
-#sys.path.insert(0, "C:\\Users\\berg.ZALF-AD\\GitHub\\monica\\project-files\\Win32\\Release")
-#sys.path.insert(0, "C:\\Users\\berg.ZALF-AD\\GitHub\\monica\\src\\python")
-#sys.path.insert(0, "C:\\Program Files (x86)\\MONICA")
 #print sys.path
 
 import gc
@@ -38,39 +35,30 @@ import monica_io3
 #print "path to monica_io: ", monica_io.__file__
 import monica_run_lib as Mrunlib
 
-LOCAL_RUN = True
-
 PATHS = {
     "container": {
-        "local-path-to-data-dir": "/monica-data/data/", # mounted data dir 
-        "local-path-to-output-dir": "/monica-output/out/", # mounted out dir
-        "local-path-to-csv-output-dir": "/monica-output/csv-out/" # mounted output dir for csv files
+        "path-to-data-dir": "/monica-data/data/", # mounted data dir 
+        "path-to-output-dir": "/monica-output/out/", # mounted out dir
+        "path-to-csv-output-dir": "/monica-output/csv-out/" # mounted output dir for csv files
     },
-    "local": {
-        "local-path-to-data-dir": "C:/zalf-rpm/monica_example/monica-data/data/",
-        "local-path-to-output-dir": "C:/zalf-rpm/monica_example/out/",
-        "local-path-to-csv-output-dir": "C:/zalf-rpm/monica_example/csv-out/"
+    "mbm-local-remote": {
+        "path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/",
+        "path-to-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/out/",
+        "path-to-csv-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/csv-out/"
     },
-    "mbm": {
-        "host": "localhost",
-        "local-path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/",
-        "local-path-to-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/out/",
-        "local-path-to-csv-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/csv-out/"
+    "hpc-remote": {
+        "path-to-data-dir": "/beegfs/common/germany/",
+        "path-to-output-dir": "./out/",
+        "path-to-csv-output-dir": "./csv-out/"
     },
-    "hpc": {
-        "host": "login01.cluster.zalf.de",
-        "local-path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/",
-        "local-path-to-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/out/",
-        "local-path-to-csv-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/csv-out/"
-    },
-    "remote": {
-        "local-path-to-data-dir": "D:/awork/zalf/monica/monica_example/monica-data/data/",
-        "local-path-to-output-dir": "D:/awork/zalf/monica/monica_example/out/",
-        "local-path-to-csv-output-dir": "D:/awork/zalf/monica/monica_example/csv-out/"
+    "cs-local-remote": {
+        "path-to-data-dir": "D:/awork/zalf/monica/monica_example/monica-data/data/",
+        "path-to-output-dir": "D:/awork/zalf/monica/monica_example/out/",
+        "path-to-csv-output-dir": "D:/awork/zalf/monica/monica_example/csv-out/"
     }
 }
-LOCAL_RUN_HOST = "localhost"
-PORT = "7777"
+DEFAULT_HOST = "login01.cluster.zalf.de" #"localhost"
+DEFAULT_PORT = "7779"
 TEMPLATE_SOIL_PATH = "{local_path_to_data_dir}germany/buek1000_1000_gk5.asc"
 
 def create_output(result):
@@ -245,16 +233,19 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     "collect data from workers"
 
     config = {
-        "user": "mbm" if LOCAL_RUN else "container",
-        "port": server["port"] if server["port"] else PORT,
-        "server": server["server"] if server["server"] else LOCAL_RUN_HOST, 
+        "user": "mbm-local-remote",
+        "port": server["port"] if server["port"] else DEFAULT_PORT,
+        "server": server["server"] if server["server"] else DEFAULT_HOST, 
         "start-row": "0",
         "end-row": "-1",
         "shared_id": shared_id,
         "no-of-setups": 2 #None
     }
-    config["out"] = PATHS[config["user"]]["local-path-to-output-dir"]
-    config["csv-out"] = PATHS[config["user"]]["local-path-to-csv-output-dir"]
+
+    paths = PATHS[config["user"]]
+
+    config["out"] = paths["path-to-output-dir"]
+    config["csv-out"] = paths["path-to-csv-output-dir"]
 
     if len(sys.argv) > 1 and __name__ == "__main__":
         for arg in sys.argv[1:]:
@@ -274,9 +265,9 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     socket.connect("tcp://" + config["server"] + ":" + config["port"])
 
     leave = False
-    write_normal_output_files = False
+    write_normal_output_files = True
 
-    path_to_soil_grid = TEMPLATE_SOIL_PATH.format(local_path_to_data_dir=PATHS[config["user"]]["local-path-to-data-dir"])
+    path_to_soil_grid = TEMPLATE_SOIL_PATH.format(local_path_to_data_dir=paths["path-to-data-dir"])
     soil_metadata, header = Mrunlib.read_header(path_to_soil_grid)
     soil_grid_template = np.loadtxt(path_to_soil_grid, dtype=int, skiprows=6)
     #set invalid soils / water to no-data
@@ -366,7 +357,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
                 
                 write_row_to_grids(data["row-col-data"], data["next-row"], data["ncols"], data["header"], path_to_out_dir, path_to_csv_out_dir, setup_id)
                 
-                debug_msg = "wrote row: "  + str(data["next-row"]) + " next-row: " + str(data["next-row"]+1) + " rows unwritten: " + str(data["row-col-data"].keys())
+                debug_msg = "wrote row: "  + str(data["next-row"]) + " next-row: " + str(data["next-row"]+1) + " rows unwritten: " + str(list(data["row-col-data"].keys()))
                 print(debug_msg)
                 #debug_file.write(debug_msg + "\n")
                 
@@ -389,7 +380,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
                 #print "ignoring", result.get("type", "")
                 return
 
-            print("received work result ", process_message.received_env_count, " customId: ", str(msg.get("customId", "").values()))
+            print("received work result ", process_message.received_env_count, " customId: ", str(list(msg.get("customId", "").values())))
 
             custom_id = msg["customId"]
             setup_id = custom_id["setup_id"]
@@ -402,8 +393,8 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
             process_message.wnof_count += 1
 
             #with open("out/out-" + str(i) + ".csv", 'wb') as _:
-            with open("out-normal/out-" + str(process_message.wnof_count) + ".csv", 'wb') as _:
-                writer = csv.writer(_, delimiter=",")
+            with open("out-normal/out-" + str(process_message.wnof_count) + ".csv", "w", newline='') as _:
+                writer = csv.writer(_, delimiter=";")
 
                 for data_ in msg.get("data", []):
                     results = data_.get("results", [])

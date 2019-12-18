@@ -39,11 +39,11 @@ import monica_run_lib as Mrunlib
 
 # chose setup for running as container (in docker) or local run 
 # for local run you need a local monica server running e.g "monica-zmq-server -bi -i tcp://*:6666 -bo -o tcp://*:7777"
-# if you use a local monica-zmq-server, set "archive-path-to-climate-dir" to the folder where your climate data is found
+# if you use a local monica-zmq-server, set "monica-path-to-climate-dir" to the folder where your climate data is found
 
 # or a local docker image:
 # docker run -p 6666:6666 -p 7777:7777 --env monica_instances=3 --rm --name monica_test -v climate-data:/monica_data/climate-data zalfrpm/monica-cluster:latest
-# if you use docker, set "archive-path-to-climate-dir" = "/monica_data/climate-data/" 
+# if you use docker, set "monica-path-to-climate-dir" = "/monica_data/climate-data/" 
 # and create a volume for the climate data, e.g for a network drive
 # docker volume create --driver local \
 #     --opt type=cifs \
@@ -51,41 +51,38 @@ import monica_run_lib as Mrunlib
 #     --opt o='username=your_username,password=your_password' \
 # climate-data
 
-
-LOCAL_RUN = True
 PATHS = {
     # adjust the local path to your environment
-    "local": {
-        "include-file-base-path": "C:/zalf-rpm/monica-parameters/", # path to monica-parameters
-        "path-to-climate-dir": "C:/zalf-rpm/monica_example/monica-data/climate-data/", # mounted path to archive or hard drive with climate data 
-        "archive-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
-        "path-to-data-dir": "C:/zalf-rpm/monica_example/monica-data/data/", # mounted path to archive or hard drive with data 
-        "path-to-projects-dir": "C:/zalf-rpm/monica_example/monica-data/projects/", # mounted path to archive or hard drive with project data 
-    },
-    "remote": {
+    "cs-local-remote": {
         "include-file-base-path": "D:/awork/zalf/monica/monica-parameters/", # path to monica-parameters
         "path-to-climate-dir": "D:/awork/zalf/monica/monica_example/monica-data/climate-data/", # mounted path to archive or hard drive with climate data 
-        "archive-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
+        "monica-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
         "path-to-data-dir": "D:/awork/zalf/monica/monica_example/monica-data/data/", # mounted path to archive or hard drive with data 
         "path-to-projects-dir": "D:/awork/zalf/monica/monica_example/monica-data/projects/", # mounted path to archive or hard drive with project data 
     },
-    "mbm": {
+    "mbm-local-remote": {
         "include-file-base-path": "C:/Users/berg.ZALF-AD/GitHub/monica-parameters/", # path to monica-parameters
         "path-to-climate-dir": "W:/FOR/FPM/data/climate/", # mounted path to archive or hard drive with climate data 
-        "archive-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
+        "monica-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
         "path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/" # mounted path to archive or hard drive with data 
+    },
+    "hpc-remote": {
+        "include-file-base-path": "/beegfs/common/GitHub/zalf-lsa/monica-parameters/",
+        "path-to-climate-dir": "/beegfs/common/data/climate/", 
+        "monica-path-to-climate-dir": "/monica_data/climate-data/", 
+        "path-to-data-dir": "/beegfs/common/germany/" 
     },
     "container": {
         "include-file-base-path": "/home/monica-parameters/", # monica parameter location in docker image
-        "archive-path-to-climate-dir": "/monica_data/climate-data/",  # mounted path to archive on cluster docker image 
+        "monica-path-to-climate-dir": "/monica_data/climate-data/",  # mounted path to archive on cluster docker image 
         "path-to-climate-dir": "/monica_data/climate-data/", # needs to be mounted there
         "path-to-data-dir": "/monica_data/data/", # needs to be mounted there
         "path-to-projects-dir": "/monica_data/project/", # needs to be mounted there
     }
 }
 
-LOCAL_RUN_HOST = "localhost"
-PORT = "6666"
+DEFAULT_HOST = "localhost"
+DEFAULT_PORT = "6666"
 RUN_SETUP = "[1,2]"
 SETUP_FILE = "sim_setups.csv"
 DATA_SOIL_DB = "germany/buek1000.sqlite"
@@ -103,8 +100,6 @@ DEBUG_ROWS = 10
 DEBUG_WRITE_FOLDER = "./debug_out"
 DEBUG_WRITE_CLIMATE = True
 
-DEBUG_ROWS
-
 # some values in these templates will be overwritten by the setup 
 TEMPLATE_SIM_JSON="sim.json" 
 TEMPLATE_CROP_JSON="crop.json"
@@ -118,14 +113,10 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     socket = context.socket(zmq.PUSH)
     #config_and_no_data_socket = context.socket(zmq.PUSH)
 
-    if LOCAL_RUN == False and not (server["server"] and server["port"]):
-        print("non LOCAL_RUN requires server and port")
-        return
-
     config = {
-        "user": "mbm" if LOCAL_RUN else "container",
-        "port": server["port"] if server["port"] else PORT,
-        "server": server["server"] if server["server"] else LOCAL_RUN_HOST,
+        "user": "mbm-local-remote",
+        "port": server["port"] if server["port"] else DEFAULT_PORT,
+        "server": server["server"] if server["server"] else DEFAULT_HOST,
         "start-row": "0", 
         "end-row": "-1",
         "sim.json": TEMPLATE_SIM_JSON,
@@ -307,7 +298,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                     
                 #print("soil:", soil_profile)
 
-                env_template["params"]["siteParameters"]["SoilProfileParameters"] = soil_profile
+                #env_template["params"]["siteParameters"]["SoilProfileParameters"] = soil_profile
 
                 # setting groundwater level
                 if setup["groundwater-level"]:
@@ -372,8 +363,8 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 # + (climate_model + "/" if climate_model else "") \
                 # + (climate_scenario + "/" if climate_scenario else "") \
                 # + climate_region + "/row-" + str(crow) + "/col-" + str(ccol) + ".csv"
-                env_template["pathToClimateCSV"] = paths["archive-path-to-climate-dir"] + subpath_to_csv
-                #print(env_template["pathToClimateCSV"])
+                env_template["pathToClimateCSV"] = paths["monica-path-to-climate-dir"] + subpath_to_csv
+                print(env_template["pathToClimateCSV"])
                 if DEBUG_WRITE_CLIMATE :
                     listOfClimateFiles.add(subpath_to_csv)
 
