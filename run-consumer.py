@@ -242,16 +242,18 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
         "no-of-setups": 2 #None
     }
 
-    paths = PATHS[config["user"]]
-
-    config["out"] = paths["path-to-output-dir"]
-    config["csv-out"] = paths["path-to-csv-output-dir"]
-
     if len(sys.argv) > 1 and __name__ == "__main__":
         for arg in sys.argv[1:]:
             k,v = arg.split("=")
             if k in config:
                 config[k] = v
+
+    paths = PATHS[config["user"]]
+
+    if not "out" in config:
+        config["out"] = paths["path-to-output-dir"]
+    if not "csv-out" in config:
+        config["csv-out"] = paths["path-to-csv-output-dir"]
 
     print("consumer config:", config)
 
