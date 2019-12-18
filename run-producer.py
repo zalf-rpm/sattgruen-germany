@@ -298,7 +298,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                     
                 #print("soil:", soil_profile)
 
-                #env_template["params"]["siteParameters"]["SoilProfileParameters"] = soil_profile
+                env_template["params"]["siteParameters"]["SoilProfileParameters"] = soil_profile
 
                 # setting groundwater level
                 if setup["groundwater-level"]:
