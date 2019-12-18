@@ -47,7 +47,7 @@ PATHS = {
         "path-to-csv-output-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/csv-out/"
     },
     "hpc-remote": {
-        "path-to-data-dir": "/beegfs/common/germany/",
+        "path-to-data-dir": "/beegfs/common/",
         "path-to-output-dir": "./out/",
         "path-to-csv-output-dir": "./csv-out/"
     },
