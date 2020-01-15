@@ -10,11 +10,6 @@
 		}
 	},
 	
-	"fert-params": {
-		"AN": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"],
-		"CADLM": ["include-from-file", "monica-parameters/organic-fertilisers/CADLM.json"]
-	}, 
-
 	"cropRotation": [
 		{
 			"worksteps": [
@@ -27,7 +22,7 @@
 					"date": "0000-04-01",
 					"type": "MineralFertilization",	
 					"amount": [55.0, "kg N"],	
-					"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]
+					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
 				},					
 				{
 					"date": "0000-08-01", 
@@ -49,7 +44,7 @@
 	],
 
 	"CropParameters": {
-		"=": ["include-from-file", "monica-parameters/general/crop.json"],
+		"=": ["include-from-file", "general/crop.json"],
 		"__enable_hourly_FvCB_photosynthesis__": false
 	}
 }
