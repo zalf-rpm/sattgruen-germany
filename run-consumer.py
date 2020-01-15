@@ -58,7 +58,7 @@ PATHS = {
     }
 }
 DEFAULT_HOST = "login01.cluster.zalf.de" #"localhost"
-DEFAULT_PORT = "7779"
+DEFAULT_PORT = "7777"
 TEMPLATE_SOIL_PATH = "{local_path_to_data_dir}germany/buek1000_1000_gk5.asc"
 
 def create_output(result):
@@ -239,7 +239,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
         "start-row": "0",
         "end-row": "-1",
         "shared_id": shared_id,
-        "no-of-setups": 2 #None
+        "no-of-setups": None
     }
 
     if len(sys.argv) > 1 and __name__ == "__main__":
@@ -310,6 +310,10 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
             leave = True
  
         elif not write_normal_output_files:
+            if "customId" not in msg:
+                print(msg)
+                return leave
+
             custom_id = msg["customId"]
             setup_id = custom_id["setup_id"]
 
