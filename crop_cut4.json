@@ -13,7 +13,7 @@
 	"cropRotation": [
 		{
 			"worksteps": [
-				{"date": "1990-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
+				{"date": "XXXX-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
 			]
 		},
 		{
