@@ -364,7 +364,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
                 write_row_to_grids(data["row-col-data"], data["next-row"], data["ncols"], data["header"], path_to_out_dir, path_to_csv_out_dir, setup_id)
                 
                 debug_msg = "wrote row: "  + str(data["next-row"]) + " next-row: " + str(data["next-row"]+1) + " rows unwritten: " + str(list(data["row-col-data"].keys()))
-                print(debug_msg)
+                print(debug_msg, flush=True)
                 #debug_file.write(debug_msg + "\n")
                 
                 data["next-row"] += 1 # move to next row (to be written)

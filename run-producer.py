@@ -377,7 +377,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
                 if not DEBUG_DONOT_SEND :
                     socket.send_json(env_template)
-                    print("sent env ", sent_env_count, " customId: ", env_template["customId"])
+                    print("sent env ", sent_env_count, " customId: ", env_template["customId"], flush=True)
 
                 sent_env_count += 1
 
