@@ -311,7 +311,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
  
         elif not write_normal_output_files:
             if "customId" not in msg:
-                print(msg)
+                print("!!!!no customId!!!!\n", msg, flush=True)
                 return leave
 
             custom_id = msg["customId"]
@@ -329,7 +329,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
             + " next row: " + str(data["next-row"]) \
             + " cols@row to go: " + str(data["datacell-count"][row]) + "@" + str(row) + " cells_per_row: " + str(datacells_per_row[row])#\
             #+ " rows unwritten: " + str(data["row-col-data"].keys()) 
-            print(debug_msg)
+            print(debug_msg, flush=True)
             #debug_file.write(debug_msg + "\n")
             data["row-col-data"][row][col].append(create_output(msg))
             data["datacell-count"][row] -= 1
@@ -349,7 +349,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
                             os.makedirs(path_to_out_dir)
                             data["out_dir_exists"] = True
                         except OSError:
-                            print("c: Couldn't create dir:", path_to_out_dir, "! Exiting.")
+                            print("c: Couldn't create dir:", path_to_out_dir, "! Exiting.", flush=True)
                             exit(1)
                     if os.path.isdir(path_to_csv_out_dir) and os.path.exists(path_to_csv_out_dir):
                         data["out_dir_exists"] = True
@@ -358,7 +358,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
                             os.makedirs(path_to_csv_out_dir)
                             data["out_dir_exists"] = True
                         except OSError:
-                            print("c: Couldn't create dir:", path_to_csv_out_dir, "! Exiting.")
+                            print("c: Couldn't create dir:", path_to_csv_out_dir, "! Exiting.", flush=True)
                             exit(1)
                 
                 write_row_to_grids(data["row-col-data"], data["next-row"], data["ncols"], data["header"], path_to_out_dir, path_to_csv_out_dir, setup_id)
@@ -376,7 +376,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
                     process_message.setup_count += 1
                     # if all setups are done, the run_setups list should be empty and we can return
                     if process_message.setup_count >= int(config["no-of-setups"]):
-                        print("c: all results received, exiting")
+                        print("c: all results received, exiting", flush=True)
                         leave = True
                         break
                 
@@ -437,10 +437,10 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
             #elapsed = timeit.default_timer() - start_time_proc
             #print("time to process message" + str(elapsed))
         except Exception as e:
-            print("Exception:", e)
+            print("Exception:", e, flush=True)
             continue
 
-    print("exiting run_consumer()")
+    print("exiting run_consumer()", flush=True)
     #debug_file.close()
 
 if __name__ == "__main__":

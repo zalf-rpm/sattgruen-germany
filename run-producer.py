@@ -247,9 +247,9 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         xllcorner = int(soil_metadata["xllcorner"])
         yllcorner = int(soil_metadata["yllcorner"])
 
-        print("All Rows x Cols: " + str(srows) + "x" + str(scols))
+        print("All Rows x Cols: " + str(srows) + "x" + str(scols), flush=True)
         for srow in range(0, srows):
-            print(srow,)
+            #print(srow,)
 
             if srow < int(config["start-row"]):
                 continue
@@ -364,7 +364,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 # + (climate_scenario + "/" if climate_scenario else "") \
                 # + climate_region + "/row-" + str(crow) + "/col-" + str(ccol) + ".csv"
                 env_template["pathToClimateCSV"] = paths["monica-path-to-climate-dir"] + subpath_to_csv
-                print(env_template["pathToClimateCSV"])
+                #print(env_template["pathToClimateCSV"])
                 if DEBUG_WRITE_CLIMATE :
                     listOfClimateFiles.add(subpath_to_csv)
 
@@ -398,7 +398,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
             #print("crows/cols:", crows_cols)
         stop_setup_time = time.clock()
-        print("Setup ", (sent_env_count-1), " envs took ", (stop_setup_time - start_setup_time), " seconds")
+        print("Setup ", (sent_env_count-1), " envs took ", (stop_setup_time - start_setup_time), " seconds", flush=True)
 
     stop_time = time.clock()
 
@@ -412,9 +412,9 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
             _.write('\n'.join(listOfClimateFiles))
 
     try:
-        print("sending ", (sent_env_count-1), " envs took ", (stop_time - start_time), " seconds")
+        print("sending ", (sent_env_count-1), " envs took ", (stop_time - start_time), " seconds", flush=True)
         #print("ran from ", start, "/", row_cols[start], " to ", end, "/", row_cols[end]
-        print("exiting run_producer()")
+        print("exiting run_producer()", flush=True)
     except Exception:
         raise
 
