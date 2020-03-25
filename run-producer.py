@@ -143,7 +143,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     print("config:", config)
 
     # select paths 
-    paths = PATHS[config["user"]]
+    paths = PATHS[config["mode"]]
     # open soil db connection
     soil_db_con = sqlite3.connect(paths["path-to-data-dir"] + DATA_SOIL_DB)
     #soil_db_con = cas_sq3.connect(paths["path-to-data-dir"] + DATA_SOIL_DB) #CAS.

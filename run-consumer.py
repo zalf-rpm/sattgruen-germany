@@ -254,7 +254,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
             if k in config:
                 config[k] = v
 
-    paths = PATHS[config["user"]]
+    paths = PATHS[config["mode"]]
 
     if not "out" in config:
         config["out"] = paths["path-to-output-dir"]
