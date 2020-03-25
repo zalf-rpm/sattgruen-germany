@@ -238,7 +238,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     "collect data from workers"
 
     config = {
-        "user": "mbm-local-remote",
+        "mode": "mbm-local-remote",
         "port": server["port"] if server["port"] else DEFAULT_PORT,
         "server": server["server"] if server["server"] else DEFAULT_HOST, 
         "start-row": "0",
