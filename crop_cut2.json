@@ -3,8 +3,8 @@
 		"CLALF": {
 			"is-winter-crop": false,
 			"cropParams": {
-				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-ley.json"],
-				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/.json"]
+				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-leyC.json"],
+				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/C4.json"]
 			},
 			"residueParams": ["include-from-file", "crop-residues/rye.json"]
 		}
@@ -21,7 +21,7 @@
 				{
 					"date": "0000-04-01",
 					"type": "MineralFertilization",	
-					"amount": [65.0, "kg N"],	
+					"amount": [50.0, "kg N"],	
 					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
 				},					
 				{
@@ -29,7 +29,7 @@
 					"type": "Cutting",
 					"organs": {
 						"Leaf": [0.8, "m2 m-2", "left"],
-						"Shoot": [50, "kg ha-1", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
 						"Fruit": [0, "kg ha-1", "cut"]
 					},
 					"export": {
@@ -41,7 +41,7 @@
 				{
 					"date": "0000-06-15",
 					"type": "MineralFertilization",	
-					"amount": [35.0, "kg N"],	
+					"amount": [50.0, "kg N"],	
 					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
 				},		
 				{
@@ -49,7 +49,7 @@
 					"type": "Cutting",
 					"organs": {
 						"Leaf": [0.8, "m2 m-2", "left"],
-						"Shoot": [50, "kg ha-1", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
 						"Fruit": [0, "kg ha-1", "cut"]
 					},
 					"export": {
@@ -58,7 +58,7 @@
 						"Fruit": [0, "%"]	
 					}
 				},			
-				{ "date": "0000-12-29", "type": "SetValue", "var": "Stage", "value": 2}
+				{ "date": "0000-12-28", "type": "SetValue", "var": "Stage", "value": 2}
 			]
 		}
 	],

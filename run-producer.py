@@ -89,7 +89,7 @@ PATHS = {
 
 DEFAULT_HOST = "localhost"
 DEFAULT_PORT = "6666"
-RUN_SETUP = "[1,2]"
+RUN_SETUP = "[1,2,3,4]"
 SETUP_FILE = "sim_setups.csv"
 DATA_SOIL_DB = "germany/buek1000.sqlite"
 DATA_GRID_HEIGHT = "germany/dem_1000_gk5.asc" 
