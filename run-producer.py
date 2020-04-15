@@ -262,13 +262,14 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
             elif int(config["end-row"]) > 0 and srow > int(config["end-row"]):
                 break
 
-            if srow != 102:
-                continue
+            #if srow != 102:
+            #    continue
 
             for scol in range(0, scols):
 
-                if scol != 258:
-                    continue
+            #    if scol != 258:
+            
+            #        continue
 
                 soil_id = soil_grid[srow, scol]
                 if soil_id == -9999:
@@ -310,7 +311,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 sp_json = soil_io3.soil_parameters(soil_db_con, int(soil_id))
                 soil_profile = monica_io3.find_and_replace_references(sp_json, sp_json)["result"]
                     
-                print("soil:", soil_profile)
+                #print("soil:", soil_profile)
 
                 env_template["params"]["siteParameters"]["SoilProfileParameters"] = soil_profile
 

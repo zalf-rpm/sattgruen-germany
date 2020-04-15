@@ -71,8 +71,8 @@ def soil_parameters(con, profile_id):
         if row["ph"] is not None:
             layer["pH"] = float(row["ph"])
 
-#        if row["sceleton"] is not None:
-#            layer["Sceleton"] = [float(row["sceleton"]) / 100.0]
+        if row["sceleton"] is not None:
+            layer["Sceleton"] = [float(row["sceleton"]) / 100.0]
 
         if row["soil_organic_carbon"] is not None:
             layer["SoilOrganicCarbon"] = [float(row["soil_organic_carbon"])]
@@ -94,29 +94,29 @@ def soil_parameters(con, profile_id):
 #        if row["saturation"] is not None:
 #            layer["PoreVolume"] = [float(row["saturation"]) / 100.0, "vol% [0-1]"]
 #
-#        if row["initial_soil_moisture"] is not None:
-#            layer["SoilMoisturePercentFC"] = [float(row["initial_soil_moisture"]), "% [0-100]"]
+        if row["initial_soil_moisture"] is not None:
+            layer["SoilMoisturePercentFC"] = [float(row["initial_soil_moisture"]), "% [0-100]"]
 #
-#        if row["soil_water_conductivity_coefficient"] is not None:
-#            layer["Lambda"] = float(row["soil_water_conductivity_coefficient"])
+        if row["soil_water_conductivity_coefficient"] is not None:
+            layer["Lambda"] = float(row["soil_water_conductivity_coefficient"])
 
-#        if row["soil_ammonium"] is not None:
-#            layer["SoilAmmonium"] = [float(row["soil_ammonium"]), "kg NH4-N m-3"]
+        if row["soil_ammonium"] is not None:
+            layer["SoilAmmonium"] = [float(row["soil_ammonium"]), "kg NH4-N m-3"]
 #
-#        if row["soil_nitrate"] is not None:
-#            layer["SoilNitrate"] = [float(row["soil_nitrate"]), "kg NO3-N m-3"]
+        if row["soil_nitrate"] is not None:
+            layer["SoilNitrate"] = [float(row["soil_nitrate"]), "kg NO3-N m-3"]
 
         if row["c_n"] is not None:
             layer["CN"] = float(row["c_n"])
 
-#        if row["layer_description"] is not None:
-#            layer["description"] = row["layer_description"]
-#
-#        if row["is_in_groundwater"] is not None:
-#            layer["is_in_groundwater"] = int(row["is_in_groundwater"]) == 1
-#
-#        if row["is_impenetrable"] is not None:
-#            layer["is_impenetrable"] = int(row["is_impenetrable"]) == 1
+        if row["layer_description"] is not None:
+            layer["description"] = row["layer_description"]
+
+        if row["is_in_groundwater"] is not None:
+            layer["is_in_groundwater"] = int(row["is_in_groundwater"]) == 1
+
+        if row["is_impenetrable"] is not None:
+            layer["is_impenetrable"] = int(row["is_impenetrable"]) == 1
 
         found = lambda key: key in layer
         layer_is_ok = found("Thickness") \
