@@ -14,7 +14,7 @@
 
 import sqlite3
 
-#print("local soil_io3.py")
+print("local soil_io3.py")
 
 def soil_parameters(con, profile_id):
     "return soil parameters from the database connection for given profile id"
@@ -51,72 +51,72 @@ def soil_parameters(con, profile_id):
     prev_depth = 0
 
     con.row_factory = sqlite3.Row
-    for row in con.cursor().execute(query, (int(profile_id),)):
-        layer = { }
+    for row in con.cursor().execute(query, (profile_id,)):
+        layer = {"type": "SoilParameters"}
 
         if row["layer_depth"] is not None:
             depth = float(row["layer_depth"])
-            layer["Thickness"] = [depth - prev_depth]
+            layer["Thickness"] = [depth - prev_depth, "m"]
             prev_depth = depth
-#
-#        if row["KA5_texture_class"] is not None:
-#            layer["KA5TextureClass"] = row["KA5_texture_class"]
+
+        if row["KA5_texture_class"] is not None:
+            layer["KA5TextureClass"] = row["KA5_texture_class"]
 
         if row["sand"] is not None:
-            layer["Sand"] = [float(row["sand"]) / 100.0]
+            layer["Sand"] = [float(row["sand"]) / 100.0, "% [0-1]"]
 
         if row["clay"] is not None:
-            layer["Clay"] = [float(row["clay"]) / 100.0]
+            layer["Clay"] = [float(row["clay"]) / 100.0, "% [0-1]"]
 
         if row["ph"] is not None:
             layer["pH"] = float(row["ph"])
 
-#        if row["sceleton"] is not None:
-#            layer["Sceleton"] = [float(row["sceleton"]) / 100.0]
+        if row["sceleton"] is not None:
+            layer["Sceleton"] = [float(row["sceleton"]) / 100.0, "vol% [0-1]"]
 
         if row["soil_organic_carbon"] is not None:
-            layer["SoilOrganicCarbon"] = [float(row["soil_organic_carbon"])]
+            layer["SoilOrganicCarbon"] = [float(row["soil_organic_carbon"]), "mass% [0-100]"]
         elif row["soil_organic_matter"] is not None:
             layer["SoilOrganicMatter"] = [float(row["soil_organic_matter"]) / 100.0, "mass% [0-1]"]
 
 
         if row["bulk_density"] is not None:
-            layer["SoilBulkDensity"] = [float(row["bulk_density"])]
+            layer["SoilBulkDensity"] = [float(row["bulk_density"]), "kg m-3"]
         elif row["raw_density"] is not None:
-            layer["SoilRawDensity"] = [float(row["raw_density"])]
+            layer["SoilRawDensity"] = [float(row["raw_density"]), "kg m-3"]
 
         if row["field_capacity"] is not None:
-            layer["FieldCapacity"] = [float(row["field_capacity"]) / 100.0]
+            layer["FieldCapacity"] = [float(row["field_capacity"]) / 100.0, "vol% [0-1]"]
 
         if row["permanent_wilting_point"] is not None:
-            layer["PermanentWiltingPoint"] = [float(row["permanent_wilting_point"]) / 100.0]
-#
-#        if row["saturation"] is not None:
-#            layer["PoreVolume"] = [float(row["saturation"]) / 100.0, "vol% [0-1]"]
-#
-#        if row["initial_soil_moisture"] is not None:
-#            layer["SoilMoisturePercentFC"] = [float(row["initial_soil_moisture"]), "% [0-100]"]
-#
-#        if row["soil_water_conductivity_coefficient"] is not None:
-#            layer["Lambda"] = float(row["soil_water_conductivity_coefficient"])
+            layer["PermanentWiltingPoint"] = [float(row["permanent_wilting_point"]) / 100.0, "vol% [0-1]"]
 
-#        if row["soil_ammonium"] is not None:
-#            layer["SoilAmmonium"] = [float(row["soil_ammonium"]), "kg NH4-N m-3"]
-#
-#        if row["soil_nitrate"] is not None:
-#            layer["SoilNitrate"] = [float(row["soil_nitrate"]), "kg NO3-N m-3"]
+        if row["saturation"] is not None:
+            layer["PoreVolume"] = [float(row["saturation"]) / 100.0, "vol% [0-1]"]
+
+        if row["initial_soil_moisture"] is not None:
+            layer["SoilMoisturePercentFC"] = [float(row["initial_soil_moisture"]), "% [0-100]"]
+
+        if row["soil_water_conductivity_coefficient"] is not None:
+            layer["Lambda"] = float(row["soil_water_conductivity_coefficient"])
+
+        if row["soil_ammonium"] is not None:
+            layer["SoilAmmonium"] = [float(row["soil_ammonium"]), "kg NH4-N m-3"]
+
+        if row["soil_nitrate"] is not None:
+            layer["SoilNitrate"] = [float(row["soil_nitrate"]), "kg NO3-N m-3"]
 
         if row["c_n"] is not None:
             layer["CN"] = float(row["c_n"])
 
-#        if row["layer_description"] is not None:
-#            layer["description"] = row["layer_description"]
-#
-#        if row["is_in_groundwater"] is not None:
-#            layer["is_in_groundwater"] = int(row["is_in_groundwater"]) == 1
-#
-#        if row["is_impenetrable"] is not None:
-#            layer["is_impenetrable"] = int(row["is_impenetrable"]) == 1
+        if row["layer_description"] is not None:
+            layer["description"] = row["layer_description"]
+
+        if row["is_in_groundwater"] is not None:
+            layer["is_in_groundwater"] = int(row["is_in_groundwater"]) == 1
+
+        if row["is_impenetrable"] is not None:
+            layer["is_impenetrable"] = int(row["is_impenetrable"]) == 1
 
         found = lambda key: key in layer
         layer_is_ok = found("Thickness") \
@@ -135,7 +135,7 @@ def soil_parameters(con, profile_id):
             layers.append(layer)
         else:
             prev_depth -= depth
-#            print("Layer ", layer, " is incomplete. Skipping it!")
+            print("Layer ", layer, " is incomplete. Skipping it!")
 
     return layers
 
