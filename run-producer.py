@@ -46,7 +46,7 @@ import monica_run_lib as Mrunlib
 # if you use docker, set "monica-path-to-climate-dir" = "/monica_data/climate-data/" 
 # and create a volume for the climate data, e.g for a network drive
 # docker volume create --driver local \
-#     --opt type=cifs \
+#     --opt type=cifs \fwat
 #     --opt device='//network_drive_ip/archiv-daten/md/data/climate/' \
 #     --opt o='username=your_username,password=your_password' \
 # climate-data
@@ -262,7 +262,14 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
             elif int(config["end-row"]) > 0 and srow > int(config["end-row"]):
                 break
 
+            if srow != 102:
+                continue
+
             for scol in range(0, scols):
+
+                if scol != 258:
+                    continue
+
                 soil_id = soil_grid[srow, scol]
                 if soil_id == -9999:
                     continue
@@ -270,7 +277,8 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                     #print("row/col:", srow, "/", scol, "has unknown soil_id:", soil_id)
                     #unknown_soil_ids.add(soil_id)
                     continue
-                
+                         
+
                 #get coordinate of clostest climate element of real soil-cell
                 sh_gk5 = yllcorner + (scellsize / 2) + (srows - srow - 1) * scellsize
                 sr_gk5 = xllcorner + (scellsize / 2) + scol * scellsize
@@ -302,7 +310,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 sp_json = soil_io3.soil_parameters(soil_db_con, int(soil_id))
                 soil_profile = monica_io3.find_and_replace_references(sp_json, sp_json)["result"]
                     
-                #print("soil:", soil_profile)
+                print("soil:", soil_profile)
 
                 env_template["params"]["siteParameters"]["SoilProfileParameters"] = soil_profile
 
