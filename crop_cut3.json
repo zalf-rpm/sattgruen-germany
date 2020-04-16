@@ -1,36 +1,12 @@
 {
-	"__UNDERSCORES IN FRONT MEANS IGNORE THE KEY, this is just to keep a valid JSON file": "",
-	"__!!! check and beautify JSON files with http://codebeautify.org/jsonviewer !!!": "",
-	
-	"__this is the path which is prepended to 'include-from-file' paths, if they are relative paths": "",
-	"_include-file-base-path": "../",
-	
-	"__user defined crops section to be used via references": "",
 	"crops": {
-		"CLV": {
-			"is-winter-crop": false,
-			"cropParams": {
-				"species":   ["include-from-file", "monica-parameters/crops/rye-grass.json"],
-				"cultivar":  ["include-from-file", "monica-parameters/crops/rye-grass/.json"]
-			},
-			"residueParams": ["include-from-file", "monica-parameters/crop-residues/grass-ley.json"]
-		},
-
 		"CLALF": {
 			"is-winter-crop": false,
 			"cropParams": {
-				"species":   ["include-from-file", "monica-parameters/crops/clover-grass-leyC.json"],
-				"cultivar":  ["include-from-file", "monica-parameters/crops/clover-grass-ley/C4.json"]
+				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-leyC.json"],
+				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/C4.json"]
 			},
-			"residueParams": ["include-from-file", "monica-parameters/crop-residues/clover-grass-ley.json"]
-		},
-		"ALF": {
-			"is-winter-crop": false,
-			"cropParams": {
-				"species": ["include-from-file", "monica-parameters/crops/alfalfa.json"],
-				"cultivar": ["include-from-file", "monica-parameters/crops/alfalfa/.json"]
-			},
-			"residueParams": ["include-from-file", "monica-parameters/crop-residues/alfalfa.json"]
+			"residueParams": ["include-from-file", "crop-residues/rye.json"]
 		}
 	},
 	
