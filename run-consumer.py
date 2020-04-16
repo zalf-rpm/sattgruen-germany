@@ -241,8 +241,8 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
         "mode": "mbm-local-remote",
         "port": server["port"] if server["port"] else DEFAULT_PORT,
         "server": server["server"] if server["server"] else DEFAULT_HOST, 
-        "start-row": "0",
-        "end-row": "-1",
+        "start-row": "102",
+        "end-row": "104",
         "shared_id": shared_id,
         "no-of-setups": None,
         "timeout": 600000 # 10 minutes

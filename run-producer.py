@@ -123,8 +123,8 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         "mode": "mbm-local-remote",
         "server-port": server["port"] if server["port"] else DEFAULT_PORT,
         "server": server["server"] if server["server"] else DEFAULT_HOST,
-        "start-row": "0", 
-        "end-row": "-1",
+        "start-row": "102", 
+        "end-row": "104",
         "sim.json": TEMPLATE_SIM_JSON,
         "crop.json": TEMPLATE_CROP_JSON,
         "site.json": TEMPLATE_SITE_JSON,
@@ -255,6 +255,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
         #print("All Rows x Cols: " + str(srows) + "x" + str(scols), flush=True)
         for srow in range(0, srows):
+    #    for srow in range(0, srows):
             #print(srow,)
 
             if srow < int(config["start-row"]):
