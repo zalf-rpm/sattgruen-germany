@@ -9,16 +9,9 @@
 			"residueParams": ["include-from-file", "crop-residues/rye.json"]
 		}
 	},
-	"__user defined fertilizer parameteres section to be used via references": "",
-	"fert-params": {
-		"AN": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"],
-		"CADLM": ["include-from-file", "monica-parameters/organic-fertilisers/CADLM.json"]
-	}, 
-
-	"__relative date crop rotation example": "",
 	"cropRotation": [
 		{"worksteps": [
-			{"date": "1990-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
+			{"date": "XXXX-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
 			]
 		},
 		{"worksteps": [
