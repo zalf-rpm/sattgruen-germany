@@ -17,7 +17,7 @@
 		{"worksteps": [
 			{"date": "0000-03-01","type": "MineralFertilization",	
 					"amount": [165.0, "kg N"],	
-					"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]},					
+					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]},					
 			{"date": "0000-04-25", 
 				"type": "Cutting",
 					"organs": {
@@ -31,7 +31,7 @@
 			},	
 			{"date": "0000-06-01","type": "MineralFertilization",	
 				"amount": [140, "kg N"],	
-				"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]},		
+				"partition": ["include-from-file", "mineral-fertilisers/AN.json"]},		
 			{"date": "0000-06-15", 
 				"type": "Cutting",
 					"organs": {
@@ -45,7 +45,7 @@
 			},
 			{"date": "0000-07-01","type": "MineralFertilization",	
 				"amount": [120 ,"kg N"],	
-				"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]},		
+				"partition": ["include-from-file", "mineral-fertilisers/AN.json"]},		
 			{"date": "0000-08-12", 
 				"type": "Cutting",
 					"organs": {
@@ -59,7 +59,7 @@
 			},
 			{"date": "0000-08-15","type": "MineralFertilization",	
 				"amount": [120 ,"kg N"],	
-				"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]},		
+				"partition": ["include-from-file", "mineral-fertilisers/AN.json"]},		
 			{"date": "0000-10-01", 
 				"type": "Cutting",
 					"organs": {
@@ -75,7 +75,7 @@
 	]}],
 	"__general crop parameters for the monica model": "",
 	"CropParameters": {
-		"=": ["include-from-file", "monica-parameters/general/crop.json"],
+		"=": ["include-from-file", "general/crop.json"],
 		"__enable_hourly_FvCB_photosynthesis__": false
 	}
 }
