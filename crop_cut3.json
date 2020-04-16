@@ -1,90 +1,99 @@
 {
+	"__UNDERSCORES IN FRONT MEANS IGNORE THE KEY, this is just to keep a valid JSON file": "",
+	"__!!! check and beautify JSON files with http://codebeautify.org/jsonviewer !!!": "",
+	
+	"__this is the path which is prepended to 'include-from-file' paths, if they are relative paths": "",
+	"_include-file-base-path": "../",
+	
+	"__user defined crops section to be used via references": "",
 	"crops": {
+		"CLV": {
+			"is-winter-crop": false,
+			"cropParams": {
+				"species":   ["include-from-file", "monica-parameters/crops/rye-grass.json"],
+				"cultivar":  ["include-from-file", "monica-parameters/crops/rye-grass/.json"]
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/grass-ley.json"]
+		},
+
 		"CLALF": {
 			"is-winter-crop": false,
 			"cropParams": {
-				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-ley.json"],
-				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/.json"]
+				"species":   ["include-from-file", "monica-parameters/crops/clover-grass-leyC.json"],
+				"cultivar":  ["include-from-file", "monica-parameters/crops/clover-grass-ley/C4.json"]
 			},
-			"residueParams": ["include-from-file", "crop-residues/rye.json"]
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/clover-grass-ley.json"]
+		},
+		"ALF": {
+			"is-winter-crop": false,
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/crops/alfalfa.json"],
+				"cultivar": ["include-from-file", "monica-parameters/crops/alfalfa/.json"]
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/alfalfa.json"]
 		}
 	},
 	
+	"__user defined fertilizer parameteres section to be used via references": "",
+	"fert-params": {
+		"AN": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"],
+		"CADLM": ["include-from-file", "monica-parameters/organic-fertilisers/CADLM.json"]
+	}, 
+
+	"__relative date crop rotation example": "",
 	"cropRotation": [
-		{
-			"worksteps": [
-				{"date": "XXXX-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
+		{"worksteps": [
+			{"date": "1990-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
 			]
 		},
-		{
-			"worksteps": [
-				{
-					"date": "0000-03-15",
-					"type": "MineralFertilization",	
+		{"worksteps": [
+			{"date": "0000-03-15","type": "MineralFertilization",	
 					"amount": [125.0, "kg N"],	
-					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
-				},					
-				{
-					"date": "0000-05-01", 
-					"type": "Cutting",
+					"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]},					
+			{"date": "0000-06-01", 
+				"type": "Cutting",
 					"organs": {
-						"Leaf": [0.8, "m2 m-2", "left"],
+						"Leaf": [1.35, "m2 m-2", "left"],
 						"Shoot": [50, "kg ha-1", "left"],
-						"Fruit": [0, "kg ha-1", "cut"]
-					},
+						"Fruit": [0, "kg ha-1", "cut"]},
 					"export": {
 						"Leaf": [100, "%"],
 						"Shoot": [100, "%"],
-						"Fruit": [0, "%"]	
-					}
-				},	
-				{
-					"date": "0000-05-15",
-					"type": "MineralFertilization",	
-					"amount": [32.50, "kg N"],	
-					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
-				},		
-				{
-					"date": "0000-07-01", 
-					"type": "Cutting",
+						"Fruit": [0, "%"]	}
+			},	
+			{"date": "0000-06-15","type": "MineralFertilization",	
+				"amount": [32.50, "kg N"],	
+				"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]},		
+			{"date": "0000-07-01", 
+				"type": "Cutting",
 					"organs": {
-						"Leaf": [0.8, "m2 m-2", "left"],
+						"Leaf": [1.35, "m2 m-2", "left"],
 						"Shoot": [50, "kg ha-1", "left"],
-						"Fruit": [0, "kg ha-1", "cut"]
-					},
+						"Fruit": [0, "kg ha-1", "cut"]},
 					"export": {
 						"Leaf": [100, "%"],
 						"Shoot": [100, "%"],
-						"Fruit": [0, "%"]	
-					}
-				},
-				{
-					"date": "0000-07-15",
-					"type": "MineralFertilization",	
-					"amount": [32.50, "kg N"],	
-					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
-				},		
-				{
-					"date": "0000-09-01", 
-					"type": "Cutting",
+						"Fruit": [0, "%"]	}
+			},
+			{"date": "0000-07-15","type": "MineralFertilization",	
+				"amount": [32.50, "kg N"],	
+				"partition": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"]},		
+			{"date": "0000-09-15", 
+				"type": "Cutting",
 					"organs": {
-						"Leaf": [0.8, "m2 m-2", "left"],
+						"Leaf": [1.35, "m2 m-2", "left"],
 						"Shoot": [50, "kg ha-1", "left"],
-						"Fruit": [0, "kg ha-1", "cut"]
-					},
+						"Fruit": [0, "kg ha-1", "cut"]},
 					"export": {
 						"Leaf": [100, "%"],
 						"Shoot": [100, "%"],
-						"Fruit": [0, "%"]	
-					}
-				},				
-				{ "date": "0000-12-29", "type": "SetValue", "var": "Stage", "value": 2}
-			]
-		}
-	],
-
+						"Fruit": [0, "%"]	}
+			},				
+			{ "date": "0000-10-28", "type": "SetValue", "var": "Stage", "value": 2}
+	]}],
+	"__general crop parameters for the monica model": "",
 	"CropParameters": {
-		"=": ["include-from-file", "general/crop.json"],
+		"=": ["include-from-file", "monica-parameters/general/crop.json"],
 		"__enable_hourly_FvCB_photosynthesis__": false
 	}
 }
