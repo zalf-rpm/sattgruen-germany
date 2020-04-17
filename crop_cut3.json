@@ -27,7 +27,7 @@
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.8, "m2 m-2", "left"],
-						"Shoot": [50, "kg ha-1", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
 						"Fruit": [0, "kg ha-1", "cut"]},
 					"export": {
 						"Leaf": [100, "%"],
@@ -43,7 +43,7 @@
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.8, "m2 m-2", "left"],
-						"Shoot": [50, "kg ha-1", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
 						"Fruit": [0, "kg ha-1", "cut"]},
 					"export": {
 						"Leaf": [100, "%"],
@@ -59,7 +59,7 @@
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.8, "m2 m-2", "left"],
-						"Shoot": [50, "kg ha-1", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
 						"Fruit": [0, "kg ha-1", "cut"]},
 					"export": {
 						"Leaf": [100, "%"],
