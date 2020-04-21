@@ -64,7 +64,7 @@ PATHS = {
 }
 DEFAULT_HOST = "login01.cluster.zalf.de" #"localhost"
 DEFAULT_PORT = "7777"
-TEMPLATE_SOIL_PATH = "{local_path_to_data_dir}germany/buek1000_1000_gk5.asc"
+TEMPLATE_SOIL_PATH = "{local_path_to_data_dir}germany/BUEK200_1000_gk5.asc"
 
 def create_output(result):
     "create output structure for single run"
@@ -115,7 +115,7 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
 
             if not os.path.isfile(path_to_row_file):
                 with open(path_to_row_file, "w") as _:
-                    _.write("Year,row,col,AbBiom-max,Precip-sum,SumExportedCutBiomass-last,ShootBiom-max,LeafBiom-max\n")
+                    _.write("Year,row,col,AbBiom-max,Precip-sum,SumExportedCutBiomass-last,ShootBiom-max,LeafBiom-max,yearly-sum-nleach\n")
 
             with open(path_to_row_file, 'a') as _:
                 writer = csv.writer(_, delimiter=",")
@@ -135,7 +135,8 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
                                     data["Precip-sum"],
                                     data["SumExportedCutBiomass-last"],
                                     data["ShootBiom-max"],
-                                    data["LeafBiom-max"]
+                                    data["LeafBiom-max"],
+                                    data["yearly-sum-nleach"]
                                 ]
                                 writer.writerow(row_)
 

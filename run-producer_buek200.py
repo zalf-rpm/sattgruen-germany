@@ -107,7 +107,7 @@ DEBUG_WRITE_FOLDER = "./debug_out"
 DEBUG_WRITE_CLIMATE = True
 
 # some values in these templates will be overwritten by the setup 
-TEMPLATE_SIM_JSON="sim.json" 
+TEMPLATE_SIM_JSON="sim_anna.json" 
 TEMPLATE_CROP_JSON="crop.json"
 TEMPLATE_SITE_JSON="site.json"
 
