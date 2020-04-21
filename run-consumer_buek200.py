@@ -136,7 +136,7 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
                                     data["SumExportedCutBiomass-last"],
                                     data["ShootBiom-max"],
                                     data["LeafBiom-max"],
-                                    data["yearly-sum-nleach"],
+                                    data["yearly-sum-nleach"]
                                 ]
                                 writer.writerow(row_)
 
@@ -152,7 +152,8 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
         "Precip-sum": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
         "SumExportedCutBiomass-last": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
         "ShootBiom-max": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "LeafBiom-max": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1}
+        "LeafBiom-max": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1},
+        "yearly-sum-nleach": {"data" : make_dict_nparr(), "cast-to": "float", "digits": 1}
     }
 
     is_no_data_row = True
