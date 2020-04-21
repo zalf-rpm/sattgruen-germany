@@ -88,7 +88,7 @@ PATHS = {
 }
 
 DEFAULT_HOST = "localhost"
-DEFAULT_PORT = "6666"
+DEFAULT_PORT = "6669"
 RUN_SETUP = "[1]"
 SETUP_FILE = "sim_setups_anna.csv"
 DATA_SOIL_DB = "germany/buek200.sqlite"
