@@ -255,8 +255,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
         #print("All Rows x Cols: " + str(srows) + "x" + str(scols), flush=True)
         for srow in range(0, srows):
-    #    for srow in range(0, srows):
-            #print(srow,)
+            print(srow,)
 
             if srow < int(config["start-row"]):
                 continue
@@ -380,7 +379,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 # + (climate_scenario + "/" if climate_scenario else "") \
                 # + climate_region + "/row-" + str(crow) + "/col-" + str(ccol) + ".csv"
                 env_template["pathToClimateCSV"] = paths["monica-path-to-climate-dir"] + subpath_to_csv
-                #print(env_template["pathToClimateCSV"])
+                print(env_template["pathToClimateCSV"])
                 if DEBUG_WRITE_CLIMATE :
                     listOfClimateFiles.add(subpath_to_csv)
 
