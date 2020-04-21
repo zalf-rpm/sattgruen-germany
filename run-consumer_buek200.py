@@ -136,7 +136,7 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
                                     data["SumExportedCutBiomass-last"],
                                     data["ShootBiom-max"],
                                     data["LeafBiom-max"],
-                                    data["yearly-sum-nleach"]
+                                    data["yearly-sum-nleach"],
                                 ]
                                 writer.writerow(row_)
 
