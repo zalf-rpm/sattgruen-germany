@@ -275,10 +275,10 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 soil_id = soil_grid[srow, scol]
                 if soil_id == -9999:
                     continue
-                if soil_id < 1 or soil_id > 71:
+                #if soil_id < 1 or soil_id > 71:
                     #print("row/col:", srow, "/", scol, "has unknown soil_id:", soil_id)
                     #unknown_soil_ids.add(soil_id)
-                    continue
+                    #continue
                          
 
                 #get coordinate of clostest climate element of real soil-cell

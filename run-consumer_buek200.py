@@ -280,8 +280,8 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     soil_metadata, header = Mrunlib.read_header(path_to_soil_grid)
     soil_grid_template = np.loadtxt(path_to_soil_grid, dtype=int, skiprows=6)
     #set invalid soils / water to no-data
-    soil_grid_template[soil_grid_template < 1] = -9999
-    soil_grid_template[soil_grid_template > 71] = -9999
+    #soil_grid_template[soil_grid_template < 1] = -9999
+    #soil_grid_template[soil_grid_template > 71] = -9999
     #set all data values to one, to count them later
     soil_grid_template[soil_grid_template != -9999] = 1
     #set all no-data values to 0, to ignore them while counting
