@@ -253,6 +253,8 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         xllcorner = int(soil_metadata["xllcorner"])
         yllcorner = int(soil_metadata["yllcorner"])
 
+        #unknown_soil_ids = set()
+        soil_id_cache = {}
         #print("All Rows x Cols: " + str(srows) + "x" + str(scols), flush=True)
         for srow in range(0, srows):
             print(srow,)
@@ -268,17 +270,22 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
             for scol in range(0, scols):
 
             #    if scol != 258:
-            
             #        continue
 
-                soil_id = soil_grid[srow, scol]
+                soil_id = int(soil_grid[srow, scol])
                 if soil_id == -9999:
                     continue
-                #if soil_id < 1 or soil_id > 71:
-                    #print("row/col:", srow, "/", scol, "has unknown soil_id:", soil_id)
-                    #unknown_soil_ids.add(soil_id)
-                    #continue
                          
+                if soil_id in soil_id_cache:
+                    sp_json = soil_id_cache[soil_id]
+                else:
+                    sp_json = soil_io3.soil_parameters(soil_db_con, soil_id)
+                    soil_id_cache[soil_id] = sp_json
+
+                if len(sp_json) == 0:
+                    print("row/col:", srow, "/", scol, "has unknown soil_id:", soil_id)
+                    #unknown_soil_ids.add(soil_id)
+                    continue
 
                 #get coordinate of clostest climate element of real soil-cell
                 sh_gk5 = yllcorner + (scellsize / 2) + (srows - srow - 1) * scellsize
@@ -308,7 +315,6 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 env_template["params"]["userCropParameters"]["__enable_T_response_leaf_expansion__"] = setup["LeafExtensionModifier"]
 
                 # set soil-profile
-                sp_json = soil_io3.soil_parameters(soil_db_con, int(soil_id))
                 soil_profile = monica_io3.find_and_replace_references(sp_json, sp_json)["result"]
                     
                 #print("soil:", soil_profile)
@@ -387,7 +393,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                     "setup_id": setup_id,
                     "srow": srow, "scol": scol,
                     "crow": int(crow), "ccol": int(ccol),
-                    "soil_id": int(soil_id)
+                    "soil_id": soil_id
                 }
 
                 if not DEBUG_DONOT_SEND :
