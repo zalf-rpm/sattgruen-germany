@@ -3,10 +3,10 @@
 		"CLALF": {
 			"is-winter-crop": false,
 			"cropParams": {
-				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-ley.json"],
-				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/.json"]
+				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-leyC.json"],
+				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/C4.json"]
 			},
-			"residueParams": ["include-from-file", "crop-residues/rye.json"]
+			"residueParams": ["include-from-file", "crop-residues/colver-grass-ley.json"]
 		}
 	},
 	
@@ -21,7 +21,7 @@
 				{
 					"date": "0000-04-01",
 					"type": "MineralFertilization",	
-					"amount": [55.0, "kg N"],	
+					"amount": [0.0, "kg N"],	
 					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
 				},					
 				{
