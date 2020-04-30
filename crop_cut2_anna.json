@@ -6,7 +6,7 @@
 				"species":   ["include-from-file", "projects/sattgruen/crops/clover-grass-leyC.json"],
 				"cultivar":  ["include-from-file", "projects/sattgruen/crops/clover-grass-ley/C4.json"]
 			},
-			"residueParams": ["include-from-file", "crop-residues/colver-grass-ley.json"]
+			"residueParams": ["include-from-file", "crop-residues/clover-grass-ley.json"]
 		}
 	},
 	
