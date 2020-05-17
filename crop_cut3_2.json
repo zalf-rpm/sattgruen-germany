@@ -1,0 +1,64 @@
+{
+	"crops": {
+		"CLALF": {
+			"is-winter-crop": false,
+			"cropParams": {
+				"species":   ["include-from-file", "projects/sattgruen/crops/Species2.json"],
+				"cultivar":  ["include-from-file", "projects/sattgruen/crops/Cultivar2.json"]
+			},
+			"residueParams": ["include-from-file", "crop-residues/rye.json"]
+		}
+	},
+
+	"cropRotation": [
+		{
+			"worksteps": [
+			{"date": "XXXX-02-06", "type": "Sowing", "crop": ["ref", "crops", "CLALF"] }
+			]
+		},
+		{"worksteps": [
+		
+			{"date": "0000-06-01", 
+				"type": "Cutting",
+					"organs": {
+						"Leaf": [0.5, "m2 m-2", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
+						"Fruit": [0, "kg ha-1", "cut"]},
+					"export": {
+						"Leaf": [100, "%"],
+						"Shoot": [100, "%"],
+						"Fruit": [0, "%"]	}
+			},	
+	
+			{"date": "0000-07-01", 
+				"type": "Cutting",
+					"organs": {
+						"Leaf": [0.5, "m2 m-2", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
+						"Fruit": [0, "kg ha-1", "cut"]},
+					"export": {
+						"Leaf": [100, "%"],
+						"Shoot": [100, "%"],
+						"Fruit": [0, "%"]	}
+			},
+			{"date": "0000-09-15", 
+				"type": "Cutting",
+					"organs": {
+						"Leaf": [0.5, "m2 m-2", "left"],
+						"Shoot": [100, "kg ha-1", "left"],
+						"Fruit": [0, "kg ha-1", "cut"]},
+					"export": {
+						"Leaf": [100, "%"],
+						"Shoot": [100, "%"],
+						"Fruit": [0, "%"]	}
+			},				
+			{ "date": "0000-12-28", "type": "SetValue", "var": "Stage", "value": 2}
+		]
+	}
+],
+
+"CropParameters": {
+	"=": ["include-from-file", "general/crop.json"],
+	"__enable_hourly_FvCB_photosynthesis__": false
+}
+}
