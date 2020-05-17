@@ -62,7 +62,8 @@
 				["Precip|Precip-sum", "SUM"],
 				["sumExportedCutBiomass|SumExportedCutBiomass-last", "LAST"] ,
 				["OrgBiom|ShootBiom-max","Shoot", "MAX"],
-				["OrgBiom|LeafBiom-max","Leaf", "MAX"]
+				["OrgBiom|LeafBiom-max","Leaf", "MAX"],
+				["NLeach|yearly-sum-nleach", "SUM"]
 			]
 		]
 	},
