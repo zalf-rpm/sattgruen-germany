@@ -90,7 +90,7 @@ PATHS = {
 DEFAULT_HOST = "localhost"
 DEFAULT_PORT = "6669"
 RUN_SETUP = "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]"
-SETUP_FILE = "sim_setups_anna.csv"
+SETUP_FILE = "sim_setups.csv"
 DATA_SOIL_DB = "germany/buek200.sqlite"
 DATA_GRID_HEIGHT = "germany/dem_1000_gk5.asc" 
 DATA_GRID_SLOPE = "germany/slope_1000_gk5.asc"
@@ -107,7 +107,7 @@ DEBUG_WRITE_FOLDER = "./debug_out"
 DEBUG_WRITE_CLIMATE = True
 
 # some values in these templates will be overwritten by the setup 
-TEMPLATE_SIM_JSON="sim_anna.json" 
+TEMPLATE_SIM_JSON="sim.json" 
 TEMPLATE_CROP_JSON="crop.json"
 TEMPLATE_SITE_JSON="site.json"
 
