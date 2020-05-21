@@ -18,7 +18,7 @@
 		},
 		{"worksteps": [
 		
-			{"date": "0000-06-01", 
+			{"date": "0000-07-01", 
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.5, "m2 m-2", "left"],
@@ -30,7 +30,7 @@
 						"Fruit": [0, "%"]	}
 			},	
 	
-			{"date": "0000-07-01", 
+			{"date": "0000-08-15", 
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.5, "m2 m-2", "left"],
@@ -41,7 +41,7 @@
 						"Shoot": [100, "%"],
 						"Fruit": [0, "%"]	}
 			},
-			{"date": "0000-09-15", 
+			{"date": "0000-10-05", 
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.5, "m2 m-2", "left"],
