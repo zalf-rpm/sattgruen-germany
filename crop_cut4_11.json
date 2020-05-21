@@ -3,8 +3,8 @@
 		"CLALF": {
 			"is-winter-crop": false,
 			"cropParams": {
-				"species":   ["include-from-file", "projects/sattgruen/crops/Species1.json"],
-				"cultivar":  ["include-from-file", "projects/sattgruen/crops/Cultivar1.json"]
+				"species":   ["include-from-file", "projects/sattgruen/crops/SpeciesCLV11.json"],
+				"cultivar":  ["include-from-file", "projects/sattgruen/crops/CultivarCLV11.json"]
 			},
 			"residueParams": ["include-from-file", "crop-residues/rye.json"]
 		}
