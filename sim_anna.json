@@ -24,7 +24,7 @@
 			"csv-separator": ";"
 		},
 
-		"debug events": [
+		"events": [
 			"daily", [
 				"Date", 
 				"Crop", 
@@ -54,7 +54,7 @@
 			]
 		],
 
-		"events": [
+		"_events": [
 			"yearly", [
 				["Year", "LAST"],
 				["DOY|Doy-last", "LAST"],
