@@ -410,11 +410,11 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
                         path_to_debug_file = DEBUG_WRITE_FOLDER + "/row_" + str(sent_env_count-1) + "_" + str(setup_id) + ".json" 
 
-                        if not os.path.isfile(path_to_debug_file):
-                            with open(path_to_debug_file, "w") as _ :
+                        #if not os.path.isfile(path_to_debug_file):
+                        with open(path_to_debug_file, "w") as _ :
                                 _.write(json.dumps(env_template))
-                        else:
-                            print("WARNING: Row ", (sent_env_count-1), " already exists")
+                        #else:
+                        #    print("WARNING: Row ", (sent_env_count-1), " already exists")
             #print("unknown_soil_ids:", unknown_soil_ids)
 
             #print("crows/cols:", crows_cols)
