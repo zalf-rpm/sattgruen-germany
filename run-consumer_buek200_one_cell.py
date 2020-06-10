@@ -275,7 +275,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     socket.connect("tcp://" + config["server"] + ":" + config["port"])
     socket.RCVTIMEO = config["timeout"]
     leave = False
-    write_normal_output_files = False
+    write_normal_output_files = True
 
     path_to_soil_grid = TEMPLATE_SOIL_PATH.format(local_path_to_data_dir=paths["path-to-data-dir"])
     soil_metadata, header = Mrunlib.read_header(path_to_soil_grid)
@@ -407,7 +407,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
             process_message.wnof_count += 1
 
             #with open("out/out-" + str(i) + ".csv", 'wb') as _:
-            with open("out-normal/out-" + str(process_message.wnof_count) + ".csv", "w", newline='') as _:
+            with open("/out/out-" + str(process_message.wnof_count) + ".csv", "w", newline='') as _:
                 writer = csv.writer(_, delimiter=";")
 
                 for data_ in msg.get("data", []):
