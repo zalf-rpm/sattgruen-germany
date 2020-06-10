@@ -410,6 +410,8 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
                         path_to_debug_file = DEBUG_WRITE_FOLDER + "/row_" + str(sent_env_count-1) + "_" + str(setup_id) + ".json" 
                         print(path_to_debug_file)
+                        with open("blabal.txt", "w") as _:
+                            _.write("ein string")
 
                         #if not os.path.isfile(path_to_debug_file):
                         with open(path_to_debug_file, "w") as _ :
