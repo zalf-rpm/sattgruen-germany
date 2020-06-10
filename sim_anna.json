@@ -33,6 +33,7 @@
 				["OrgBiom", "Leaf"], 
 				["OrgBiom", "Fruit"], 
 				"Yield", 
+				"NLeach",
 				"LAI", 
 				"Precip", 
 				["Mois", [1, 3]], 
