@@ -59,18 +59,21 @@ PATHS = {
         "monica-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
         "path-to-data-dir": "D:/awork/zalf/monica/monica_example/monica-data/data/", # mounted path to archive or hard drive with data 
         "path-to-projects-dir": "D:/awork/zalf/monica/monica_example/monica-data/projects/", # mounted path to archive or hard drive with project data 
+        "path-debug-write-folder": "./debug_out/",
     },
     "mbm-local-remote": {
         "include-file-base-path": "C:/Users/berg.ZALF-AD/GitHub/monica-parameters/", # path to monica-parameters
         "path-to-climate-dir": "W:/FOR/FPM/data/climate/", # mounted path to archive or hard drive with climate data 
         "monica-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
-        "path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/" # mounted path to archive or hard drive with data 
+        "path-to-data-dir": "C:/Users/berg.ZALF-AD/GitHub/sattgruen-germany/monica-data/data/", # mounted path to archive or hard drive with data 
+        "path-debug-write-folder": "./debug_out/",
     },
     "hpc-remote": {
         "include-file-base-path": "/beegfs/common/GitHub/zalf-rpm/monica-parameters/",
         "path-to-climate-dir": "/beegfs/common/data/climate/", 
         "monica-path-to-climate-dir": "/monica_data/climate-data/", 
-        "path-to-data-dir": "/beegfs/common/data/" 
+        "path-to-data-dir": "/beegfs/common/data/",
+        "path-debug-write-folder": "./debug_out/",
     },
     "container": {
         "include-file-base-path": "/home/monica-parameters/", # monica parameter location in docker image
@@ -78,12 +81,14 @@ PATHS = {
         "path-to-climate-dir": "/monica_data/climate-data/", # needs to be mounted there
         "path-to-data-dir": "/monica_data/data/", # needs to be mounted there
         "path-to-projects-dir": "/monica_data/project/", # needs to be mounted there
+        "path-debug-write-folder": "./debug_out/",
     },
     "remoteProducer-remoteMonica": {
         "include-file-base-path": "/monica-parameters/", # path to monica-parameters
         "path-to-climate-dir": "/data/", # mounted path to archive or hard drive with climate data 
         "monica-path-to-climate-dir": "/monica_data/climate-data/", # mounted path to archive accessable by monica executable
-        "path-to-data-dir": "./monica-data/data/" # mounted path to archive or hard drive with data 
+        "path-to-data-dir": "./monica-data/data/", # mounted path to archive or hard drive with data 
+        "path-debug-write-folder": "/out/debug-out/",
     }
 }
 
@@ -404,20 +409,18 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
                 # write debug output, as json file
                 if DEBUG_WRITE:
-                    if not os.path.exists(DEBUG_WRITE_FOLDER):
-                        os.makedirs(DEBUG_WRITE_FOLDER)
+                    debug_write_folder = paths["path-debug-write-folder"]
+                    if not os.path.exists(debug_write_folder):
+                        os.makedirs(debug_write_folder)
                     if sent_env_count < DEBUG_ROWS  :
 
-                        path_to_debug_file = DEBUG_WRITE_FOLDER + "/row_" + str(sent_env_count-1) + "_" + str(setup_id) + ".json" 
-                        print(path_to_debug_file)
-                        with open("blabal.txt", "w") as _:
-                            _.write("ein string")
+                        path_to_debug_file = debug_write_folder + "/row_" + str(sent_env_count-1) + "_" + str(setup_id) + ".json" 
 
-                        #if not os.path.isfile(path_to_debug_file):
-                        with open(path_to_debug_file, "w") as _ :
-                            _.write(json.dumps(env_template))
-                        #else:
-                        #    print("WARNING: Row ", (sent_env_count-1), " already exists")
+                        if not os.path.isfile(path_to_debug_file):
+                            with open(path_to_debug_file, "w") as _ :
+                                _.write(json.dumps(env_template))
+                        else:
+                            print("WARNING: Row ", (sent_env_count-1), " already exists")
             #print("unknown_soil_ids:", unknown_soil_ids)
 
             #print("crows/cols:", crows_cols)
