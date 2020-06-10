@@ -87,7 +87,7 @@ PATHS = {
     }
 }
 
-DEFAULT_HOST = "localhost"
+DEFAULT_HOST = "login01.cluster.zalf.de" ## ""localhost"
 DEFAULT_PORT = "6669"
 RUN_SETUP = "[1]"
 SETUP_FILE = "sim_setups_anna.csv"
