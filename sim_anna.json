@@ -24,7 +24,7 @@
 			"csv-separator": ";"
 		},
 
-		"events": [
+		"_events": [
 			"daily", [
 				"Date", 
 				"CM-count",
@@ -152,7 +152,7 @@
 			]
 		],
 
-		"_events": [
+		"events": [
 			"yearly", [
 				["Year", "LAST"],
 				["DOY|Doy-last", "LAST"],
