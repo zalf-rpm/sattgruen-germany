@@ -17,15 +17,9 @@
 			]
 		},
 		{
-			"worksteps": [	
+			"worksteps": [			
 				{
-					"date": "0000-04-01",
-					"type": "MineralFertilization",	
-					"amount": [25.0, "kg N"],	
-					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
-				},					
-				{
-					"date": "0000-06-01", 
+					"date": "0000-06-15", 
 					"type": "Cutting",
 					"organs": {
 						"Leaf": [0.5, "m2 m-2", "left"],
@@ -39,13 +33,7 @@
 					}
 				},	
 				{
-					"date": "0000-07-10",
-					"type": "MineralFertilization",	
-					"amount": [25.0, "kg N"],	
-					"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
-				},			
-				{
-					"date": "0000-09-01", 
+					"date": "0000-08-15", 
 					"type": "Cutting",
 					"organs": {
 						"Leaf": [0.5, "m2 m-2", "left"],

@@ -40,7 +40,7 @@
 				"amount": [55.0, "kg N"],	
 				"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
 			},			
-			{"date": "0000-07-01", 
+			{"date": "0000-07-15", 
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.5, "m2 m-2", "left"],
@@ -52,12 +52,12 @@
 						"Fruit": [0, "%"]	}
 			},
 			{
-				"date": "0000-07-10",
+				"date": "0000-07-20",
 				"type": "MineralFertilization",	
 				"amount": [55.0, "kg N"],	
 				"partition": ["include-from-file", "mineral-fertilisers/AN.json"]
 			},			
-			{"date": "0000-09-15", 
+			{"date": "0000-09-01", 
 				"type": "Cutting",
 					"organs": {
 						"Leaf": [0.5, "m2 m-2", "left"],
