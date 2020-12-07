@@ -1,5 +1,6 @@
 import csv
 import json
+import gzip
 import numpy as np
 from scipy.interpolate import NearestNDInterpolator
 from pyproj import transform, Transformer
@@ -36,7 +37,7 @@ def read_header(path_to_ascii_grid_file):
     "read metadata from esri ascii grid file"
     metadata = {}
     header_str = ""
-    with open(path_to_ascii_grid_file) as _:
+    with gzip.open(path_to_ascii_grid_file, "rt") if path_to_ascii_grid_file[-3:] == ".gz" else open(path_to_ascii_grid_file) as _:
         for i in range(0, 6):
             line = _.readline()
             header_str += line
@@ -47,7 +48,7 @@ def read_header(path_to_ascii_grid_file):
 
 #------------------------------------------------------------------------------------
 
-def create_ascii_grid_interpolator(grid, meta_data, ignore_nodata=True):
+def create_ascii_grid_interpolator(grid, meta_data, ignore_nodata=True, return_row_col=False):
     "read an ascii grid into a map, without the no-data values"
     "grid - 2D array of values"
 
@@ -73,11 +74,12 @@ def create_ascii_grid_interpolator(grid, meta_data, ignore_nodata=True):
             r = xll_center + col * cellsize
             h = yul_center - row * cellsize
             points.append([r, h])
-            values.append(value)
+            values.append((int(row), int(col)) if return_row_col else value)
 
     return NearestNDInterpolator(np.array(points), np.array(values))
     
 #------------------------------------------------------------------------------------
+
 def get_value(list_or_value):
    return list_or_value[0] if isinstance(list_or_value, list) else list_or_value
 
