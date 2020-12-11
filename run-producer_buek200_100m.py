@@ -168,6 +168,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     gk5_crs = CRS.from_epsg(31469)
     #latlon_to_gk3 = Transformer.from_crs(latlon_crs, gk3_crs, always_xy=True)
     gk5_to_gk3 = Transformer.from_crs(gk5_crs, gk3_crs, always_xy=True)
+    gk3_to_gk5 = Transformer.from_crs(gk3_crs, gk5_crs, always_xy=True)
     #latlon_to_etrs89 = Transformer.from_crs(latlon_crs, etrs89_crs, always_xy=True)
     #im = Image.open("Tif_to_Asc_Mowing/mowingEvents_PYP_2020_sum_sieve_4_50_na.tif")
     #print(im.getpixel((30000, 30000)))
@@ -196,7 +197,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         for band in range(band_start, band_end+1):
             mow_grids["doys"][year].append(np.loadtxt(path_to_mow_grid_dir + mow_grid_subfilepath["doys"].format(year=year, band=band), dtype=int, skiprows=6))
             print("doys mow_grid loaded for", year, "and band", band)
-    mow_gk3_interpolate = Mrunlib.create_ascii_grid_interpolator(mow_grids["no_of_cuts"][cutting_year_start], mow_metadata, return_row_col=True)
+    #mow_gk3_interpolate = Mrunlib.create_ascii_grid_interpolator(mow_grids["no_of_cuts"][cutting_year_start], mow_metadata, return_row_col=True)
     print("mow_grid row col interpolator created")
     
     # height data for germany
@@ -224,6 +225,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     path_to_soil_grid = paths["path-to-data-dir"] + DATA_GRID_SOIL
     soil_metadata, _ = Mrunlib.read_header(path_to_soil_grid)
     soil_grid = np.loadtxt(path_to_soil_grid, dtype=int, skiprows=6)
+    soil_gk5_interpolate = Mrunlib.create_ascii_grid_interpolator(soil_grid, soil_metadata)
     print("read: ", path_to_soil_grid)
 
     cdict = {}
@@ -283,11 +285,11 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         if config["shared_id"]:
             env_template["sharedId"] = config["shared_id"]
 
-        scols = int(soil_metadata["ncols"])
-        srows = int(soil_metadata["nrows"])
-        scellsize = int(soil_metadata["cellsize"])
-        xllcorner = int(soil_metadata["xllcorner"])
-        yllcorner = int(soil_metadata["yllcorner"])
+        base_cols = int(mow_metadata["ncols"])
+        base_rows = int(mow_metadata["nrows"])
+        scellsize = int(mow_metadata["cellsize"])
+        xllcorner = int(mow_metadata["xllcorner"])
+        yllcorner = int(mow_metadata["yllcorner"])
 
         cutting_cm_template = env_template["cropRotation"].pop(1)
         cutting_ws_template = cutting_cm_template["worksteps"].pop(1)
@@ -295,27 +297,32 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
         #unknown_soil_ids = set()
         soil_id_cache = {}
-        #print("All Rows x Cols: " + str(srows) + "x" + str(scols), flush=True)
-        for srow in range(0, srows):
-            print(srow,)
+        #print("All Rows x Cols: " + str(base_rows) + "x" + str(base_cols), flush=True)
+        base_grid = mow_grids["no_of_cuts"][2017]
+        for brow in range(0, base_rows):
+            print(brow,)
 
-            if srow < int(config["start-row"]):
+            if brow < int(config["start-row"]):
                 continue
-            elif int(config["end-row"]) > 0 and srow > int(config["end-row"]):
+            elif int(config["end-row"]) > 0 and brow > int(config["end-row"]):
                 break
 
-            #if srow != 102:
+            #if brow != 102:
             #    continue
 
-            for scol in range(0, scols):
+            for bcol in range(0, base_cols):
 
-            #    if scol != 258:
+            #    if bcol != 258:
             #        continue
 
-                soil_id = int(soil_grid[srow, scol])
-                if soil_id == -9999:
+                if base_grid[brow, bcol] == -9999:
                     continue
+
+                bh_gk3 = yllcorner + (scellsize / 2) + (base_rows - brow - 1) * scellsize
+                br_gk3 = xllcorner + (scellsize / 2) + bcol * scellsize
+                br_gk5, bh_gk5 = gk3_to_gk5.transform(br_gk3, bh_gk3)
                          
+                soil_id = soil_gk5_interpolate(br_gk5, bh_gk5)         
                 if soil_id in soil_id_cache:
                     sp_json = soil_id_cache[soil_id]
                 else:
@@ -323,26 +330,23 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                     soil_id_cache[soil_id] = sp_json
 
                 if len(sp_json) == 0:
-                    print("row/col:", srow, "/", scol, "has unknown soil_id:", soil_id)
+                    print("row/col:", brow, "/", bcol, "has unknown soil_id:", soil_id)
                     #unknown_soil_ids.add(soil_id)
                     continue
-
-                #get coordinate of clostest climate element of real soil-cell
-                sh_gk5 = yllcorner + (scellsize / 2) + (srows - srow - 1) * scellsize
-                sr_gk5 = xllcorner + (scellsize / 2) + scol * scellsize
+               
                 #inter = crow/ccol encoded into integer
-                crow, ccol = climate_data_to_gk5_interpolator[climate_data](sr_gk5, sh_gk5)
+                crow, ccol = climate_data_to_gk5_interpolator[climate_data](br_gk5, bh_gk5)
 
                 # check if current grid cell is used for agriculture                
                 if setup["landcover"]:
-                    corine_id = corine_gk5_interpolate(sr_gk5, sh_gk5)
+                    corine_id = corine_gk5_interpolate(br_gk5, bh_gk5)
                     if corine_id not in [200, 210, 211, 212, 240, 241, 242, 243, 244]:
                         continue
 
-                height_nn = dem_gk5_interpolate(sr_gk5, sh_gk5)
-                slope = slope_gk5_interpolate(sr_gk5, sh_gk5)
+                height_nn = dem_gk5_interpolate(br_gk5, bh_gk5)
+                slope = slope_gk5_interpolate(br_gk5, bh_gk5)
 
-                #print("scol:", scol, "crow/col:", (crow, ccol), "soil_id:", soil_id, "height_nn:", height_nn, "slope:", slope, "seed_harvest_cs:", seed_harvest_cs)
+                #print("bcol:", bcol, "crow/col:", (crow, ccol), "soil_id:", soil_id, "height_nn:", height_nn, "slope:", slope, "seed_harvest_cs:", seed_harvest_cs)
 
                 #with open("dump-" + str(c) + ".json", "w") as jdf:
                 #    json.dump({"id": (str(resolution) \
@@ -353,12 +357,10 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 #    c += 1
 
                 # create the cutting worksteps according to the available grid data
-                sr_gk3, sh_gk3 = gk5_to_gk3.transform(sr_gk5, sh_gk5)
-                (mrow, mcol) = mow_gk3_interpolate(sr_gk3, sh_gk3)
                 env_template["cropRotation"] = copy.deepcopy(crop_rotation_template)
                 for year in range(cutting_year_start, cutting_year_end+1):
                     if year in mow_grids["no_of_cuts"]:
-                        no_of_cuts = mow_grids["no_of_cuts"][year][(mrow, mcol)]
+                        no_of_cuts = mow_grids["no_of_cuts"][year][(brow, bcol)]
                         if no_of_cuts > 0:
                             cm = copy.deepcopy(cutting_cm_template)
                             for cut_no in range(0, no_of_cuts + 1):
@@ -366,7 +368,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                                     rel_year = "000{cut_no}".format(cut_no=cut_no)
                                     cm["worksteps"][0]["date"] = cm["worksteps"][0]["date"].replace("0000", rel_year)
                                     cm["worksteps"][-1]["date"] = cm["worksteps"][0]["date"].replace("0000", rel_year)
-                                    doy = mow_grids["doys"][year][cut_no][(mrow, mcol)]
+                                    doy = mow_grids["doys"][year][cut_no][(brow, bcol)]
                                     d = date(year, 1, 1) + timedelta(days=int(doy)-1)
                                     cutting_ws = copy.deepcopy(cutting_ws_template)
                                     cutting_ws["date"] = "{rel_year}-{month:02d}-{day:02d}".format(rel_year=rel_year, month=d.month, day=d.day)
@@ -452,7 +454,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
                 env_template["customId"] = {
                     "setup_id": setup_id,
-                    "srow": srow, "scol": scol,
+                    "brow": brow, "bcol": bcol,
                     "crow": int(crow), "ccol": int(ccol),
                     "soil_id": soil_id
                 }
