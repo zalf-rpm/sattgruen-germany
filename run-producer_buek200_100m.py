@@ -322,7 +322,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 br_gk3 = xllcorner + (scellsize / 2) + bcol * scellsize
                 br_gk5, bh_gk5 = gk3_to_gk5.transform(br_gk3, bh_gk3)
                          
-                soil_id = soil_gk5_interpolate(br_gk5, bh_gk5)         
+                soil_id = int(soil_gk5_interpolate(br_gk5, bh_gk5))
                 if soil_id in soil_id_cache:
                     sp_json = soil_id_cache[soil_id]
                 else:
