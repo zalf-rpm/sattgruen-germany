@@ -276,7 +276,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     leave = False
     write_normal_output_files = False
 
-    path_to_template_grid = paths["path-to-data-dir"] + "management/sattgruen_cutting_dates/2017/mowingEvents_PYP_2017_sum_sieve_4_50_na_31467_rsmpl_100.asc.gz"
+    path_to_template_grid = "/data/management/sattgruen_cutting_dates/2017/mowingEvents_PYP_2017_sum_sieve_4_50_na_31467_rsmpl_100.asc.gz"
     grid_template_metadata, header = Mrunlib.read_header(path_to_template_grid)
     grid_template = np.loadtxt(path_to_template_grid, dtype=int, skiprows=6)
     print("loaded grid template")
