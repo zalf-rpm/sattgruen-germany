@@ -110,7 +110,7 @@ DEBUG_WRITE_FOLDER = "./debug_out"
 DEBUG_WRITE_CLIMATE = True
 
 # some values in these templates will be overwritten by the setup 
-TEMPLATE_SIM_JSON="sim_anna.json" 
+TEMPLATE_SIM_JSON="sim.json" 
 TEMPLATE_CROP_JSON="crop_template.json"
 TEMPLATE_SITE_JSON="site.json"
 
@@ -189,7 +189,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         "no_of_cuts": {},
         "doys": defaultdict(list)
     }
-    path_to_mow_grid_dir = paths["path-to-data-dir"] + "management/sattgruen_cutting_dates/"
+    path_to_mow_grid_dir = paths["path-to-climate-dir"] + "management/sattgruen_cutting_dates/"
     mow_metadata, _ = Mrunlib.read_header(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=cutting_year_start))
     for year in range(cutting_year_start, cutting_year_end+1):
         mow_grids["no_of_cuts"][year] = np.loadtxt(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=year), dtype=int, skiprows=6)
