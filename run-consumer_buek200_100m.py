@@ -96,7 +96,7 @@ def create_output(result):
                         vals[name] = val
 
                 if "Year" not in vals:
-                    print("Missing Year in result section. Skipping results section.")
+                    print("Missing Year in result section. Skipping results section.", flush=True)
                     continue
 
                 year_to_vals[vals["Year"]].update(vals)
@@ -262,7 +262,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     if not "csv-out" in config:
         config["csv-out"] = paths["path-to-csv-output-dir"]
 
-    print("consumer config:", config)
+    print("consumer config:", config, flush=True)
 
     context = zmq.Context()
     if config["shared_id"]:
@@ -279,7 +279,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     path_to_template_grid = "/data/management/sattgruen_cutting_dates/2017/mowingEvents_PYP_2017_sum_sieve_4_50_na_31467_rsmpl_100.asc.gz"
     grid_template_metadata, header = Mrunlib.read_header(path_to_template_grid)
     grid_template = np.loadtxt(path_to_template_grid, dtype=int, skiprows=6)
-    print("loaded grid template")
+    print("loaded grid template", flush=True)
     #set invalid soils / water to no-data
     #soil_grid_template[soil_grid_template < 1] = -9999
     #soil_grid_template[soil_grid_template > 71] = -9999
@@ -314,7 +314,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
         leave = False
 
         if msg["type"] == "finish":
-            print("c: received finish message")
+            print("c: received finish message", flush=True)
             leave = True
  
         elif not write_normal_output_files:
@@ -394,7 +394,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
                 #print "ignoring", result.get("type", "")
                 return
 
-            print("received work result ", process_message.received_env_count, " customId: ", str(list(msg.get("customId", "").values())))
+            print("received work result ", process_message.received_env_count, " customId: ", str(list(msg.get("customId", "").values())), flush=True)
 
             custom_id = msg["customId"]
             setup_id = custom_id["setup_id"]
@@ -445,7 +445,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
             #elapsed = timeit.default_timer() - start_time_proc
             #print("time to process message" + str(elapsed))
         except zmq.error.Again as _e:
-            print('no response from the server (with "timeout"=%d ms) ' % socket.RCVTIMEO)
+            print('no response from the server (with "timeout"=%d ms) ' % socket.RCVTIMEO, flush=True)
             return
         except Exception as e:
             print("Exception:", e, flush=True)

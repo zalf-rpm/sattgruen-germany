@@ -156,7 +156,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     # read setup from csv file
     setups = Mrunlib.read_sim_setups(config["setups-file"])
     run_setups = json.loads(config["run-setups"])
-    print("read sim setups: ", config["setups-file"])
+    print("read sim setups: ", config["setups-file"], flush=True)
 
     #transforms geospatial coordinates from one coordinate reference system to another
     # transform wgs84 into gk5
@@ -193,40 +193,40 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     mow_metadata, _ = Mrunlib.read_header(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=cutting_year_start))
     for year in range(cutting_year_start, cutting_year_end+1):
         mow_grids["no_of_cuts"][year] = np.loadtxt(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=year), dtype=int, skiprows=6)
-        print("no_cuts mow_grid loaded for", year)
+        print("no_cuts mow_grid loaded for", year, flush=True)
         for band in range(band_start, band_end+1):
             mow_grids["doys"][year].append(np.loadtxt(path_to_mow_grid_dir + mow_grid_subfilepath["doys"].format(year=year, band=band), dtype=int, skiprows=6))
-            print("doys mow_grid loaded for", year, "and band", band)
+            print("doys mow_grid loaded for", year, "and band", band, flush=True)
     #mow_gk3_interpolate = Mrunlib.create_ascii_grid_interpolator(mow_grids["no_of_cuts"][cutting_year_start], mow_metadata, return_row_col=True)
-    print("mow_grid row col interpolator created")
+    print("mow_grid row col interpolator created", flush=True)
     
     # height data for germany
     path_to_dem_grid = paths["path-to-data-dir"] + DATA_GRID_HEIGHT 
     dem_metadata, _ = Mrunlib.read_header(path_to_dem_grid)
     dem_grid = np.loadtxt(path_to_dem_grid, dtype=int, skiprows=6)
     dem_gk5_interpolate = Mrunlib.create_ascii_grid_interpolator(dem_grid, dem_metadata)
-    print("read: ", path_to_dem_grid)
+    print("read: ", path_to_dem_grid, flush=True)
     
     # slope data
     path_to_slope_grid = paths["path-to-data-dir"] + DATA_GRID_SLOPE
     slope_metadata, _ = Mrunlib.read_header(path_to_slope_grid)
     slope_grid = np.loadtxt(path_to_slope_grid, dtype=float, skiprows=6)
     slope_gk5_interpolate = Mrunlib.create_ascii_grid_interpolator(slope_grid, slope_metadata)
-    print("read: ", path_to_slope_grid)
+    print("read: ", path_to_slope_grid, flush=True)
 
     # land use data
     path_to_corine_grid = paths["path-to-data-dir"] + DATA_GRID_LAND_USE
     corine_meta, _ = Mrunlib.read_header(path_to_corine_grid)
     corine_grid = np.loadtxt(path_to_corine_grid, dtype=int, skiprows=6)
     corine_gk5_interpolate = Mrunlib.create_ascii_grid_interpolator(corine_grid, corine_meta)
-    print("read: ", path_to_corine_grid)
+    print("read: ", path_to_corine_grid, flush=True)
 
     # soil data
     path_to_soil_grid = paths["path-to-data-dir"] + DATA_GRID_SOIL
     soil_metadata, _ = Mrunlib.read_header(path_to_soil_grid)
     soil_grid = np.loadtxt(path_to_soil_grid, dtype=int, skiprows=6)
     soil_gk5_interpolate = Mrunlib.create_ascii_grid_interpolator(soil_grid, soil_metadata)
-    print("read: ", path_to_soil_grid)
+    print("read: ", path_to_soil_grid, flush=True)
 
     cdict = {}
     climate_data_to_gk5_interpolator = {}
@@ -237,7 +237,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
             # path to latlon-to-rowcol.json
             path = TEMPLATE_PATH_LATLON.format(path_to_climate_dir=paths["path-to-climate-dir"], climate_data=climate_data)
             climate_data_to_gk5_interpolator[climate_data] = Mrunlib.create_climate_geoGrid_interpolator_from_json_file(path, wgs84, gk5, cdict)
-            print("created climate_data to gk5 interpolator: ", path)
+            print("created climate_data to gk5 interpolator: ", path, flush=True)
 
     sent_env_count = 1
     start_time = time.clock()
@@ -448,7 +448,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 # + (climate_scenario + "/" if climate_scenario else "") \
                 # + climate_region + "/row-" + str(crow) + "/col-" + str(ccol) + ".csv"
                 env_template["pathToClimateCSV"] = paths["monica-path-to-climate-dir"] + subpath_to_csv
-                print(env_template["pathToClimateCSV"])
+                #print(env_template["pathToClimateCSV"])
                 if DEBUG_WRITE_CLIMATE :
                     listOfClimateFiles.add(subpath_to_csv)
 
@@ -477,7 +477,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                             with open(path_to_debug_file, "w") as _ :
                                 _.write(json.dumps(env_template))
                         else:
-                            print("WARNING: Row ", (sent_env_count-1), " already exists")
+                            print("WARNING: Row ", (sent_env_count-1), " already exists", flush=True)
             #print("unknown_soil_ids:", unknown_soil_ids)
 
             #print("crows/cols:", crows_cols)
