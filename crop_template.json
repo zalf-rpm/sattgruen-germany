@@ -1,0 +1,55 @@
+{
+	"crops": {
+		"BEST": {
+			"is-winter-crop": false,
+			"cropParams": {
+				"species":   ["include-from-file", "projects/sattgruen/crops/Species_best.json"],
+				"cultivar":  ["include-from-file", "projects/sattgruen/crops/Cultivar_best.json"]
+			},
+			"residueParams": ["include-from-file", "crop-residues/rye.json"]
+		}
+	},
+	
+	"fert-params": {
+		"AN": ["include-from-file", "mineral-fertilisers/AN.json"],
+		"CADLM": ["include-from-file", "organic-fertilisers/CADLM.json"]
+	}, 	
+
+	"cropRotation": [
+		{
+			"worksteps": [
+				{"date": "XXXX-02-06", "type": "Sowing", "crop": ["ref", "crops", "BEST"] }
+			]
+		},
+		{
+			"worksteps": [
+				{
+					"date": "0000-03-10",
+					"type": "MineralFertilization",	
+					"amount": [60.0, "kg N"],	
+					"partition": ["ref", "fert-params", "AN"]
+				},					
+				{
+					"date": "0000-09-05", 
+					"type": "Cutting",
+					"organs": {
+							"Leaf": [0.5, "m2 m-2", "left"],
+							"Shoot": [10, "kg ha-1", "left"],
+							"Fruit": [0, "kg ha-1", "cut"]
+					},
+					"export": {
+						"Leaf": [100, "%"],
+						"Shoot": [100, "%"],
+						"Fruit": [0, "%"]	
+					}
+				},				
+				{ "date": "0000-12-29", "type": "SetValue", "var": "Stage", "value": 2}
+			]
+		}
+	],
+
+	"CropParameters": {
+		"=": ["include-from-file", "general/crop.json"],
+		"__enable_T_response_leaf_expansion__": false
+	}
+}

@@ -123,7 +123,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     #config_and_no_data_socket = context.socket(zmq.PUSH)
 
     config = {
-        "mode": "mbm-local-remote", #"remoteProducer-remoteMonica",
+        "mode": "remoteProducer-remoteMonica",
         "server-port": server["port"] if server["port"] else DEFAULT_PORT,
         "server": server["server"] if server["server"] else DEFAULT_HOST,
         "start-row": "0", 
@@ -300,7 +300,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         #print("All Rows x Cols: " + str(base_rows) + "x" + str(base_cols), flush=True)
         base_grid = mow_grids["no_of_cuts"][2017]
         for brow in range(0, base_rows):
-            print(brow,)
+            #print(brow,)
 
             if brow < int(config["start-row"]):
                 continue
