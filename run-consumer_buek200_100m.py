@@ -327,8 +327,8 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
 
             data = setup_id_to_data[setup_id]
 
-            row = custom_id["srow"]
-            col = custom_id["scol"]
+            row = custom_id["brow"]
+            col = custom_id["bcol"]
             #crow = custom_id.get("crow", -1)
             #ccol = custom_id.get("ccol", -1)
             #soil_id = custom_id.get("soil_id", -1)
@@ -398,8 +398,8 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
 
             custom_id = msg["customId"]
             setup_id = custom_id["setup_id"]
-            row = custom_id["srow"]
-            col = custom_id["scol"]
+            row = custom_id["brow"]
+            col = custom_id["bcol"]
             #crow = custom_id.get("crow", -1)
             #ccol = custom_id.get("ccol", -1)
             #soil_id = custom_id.get("soil_id", -1)
