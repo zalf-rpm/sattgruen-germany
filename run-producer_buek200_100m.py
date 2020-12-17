@@ -178,7 +178,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
     # cutting grids
     cutting_year_start = 2017
-    cutting_year_end = 2020
+    cutting_year_end = 2019
     band_start = 0
     band_end = 9
     mow_grid_subfilepath = {
