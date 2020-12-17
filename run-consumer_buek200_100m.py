@@ -246,7 +246,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
         "end-row": "-1",
         "shared_id": shared_id,
         "no-of-setups": None,
-        "timeout": 600000 # 10 minutes
+        "timeout": 30000000 # 10 minutes
     }
 
     if len(sys.argv) > 1 and __name__ == "__main__":
