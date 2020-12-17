@@ -178,9 +178,9 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
 
     # cutting grids
     cutting_year_start = 2017
-    cutting_year_end = 2017 #2020
+    cutting_year_end = 2020
     band_start = 0
-    band_end = 1 #9
+    band_end = 9
     mow_grid_subfilepath = {
             "no_of_cuts": "{year}/mowingEvents_PYP_{year}_sum_sieve_4_50_na_31467_rsmpl_100.asc.gz",
             "doys": "{year}/mowing_DOY_PYP_{year}DOY_{band}_31467_rsmpl_100.asc.gz"
