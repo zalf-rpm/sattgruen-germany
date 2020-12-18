@@ -19,6 +19,7 @@ import sys
 #print sys.path
 
 import gc
+import gzip
 import csv
 import types
 import os
@@ -204,14 +205,14 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
             mold = lambda x: str(round(x, digits))
 
         for year, row_arr in y2d.items():
-            path_to_file = path_to_output_dir + key + "_" + str(year) + ".asc"
+            path_to_file = path_to_output_dir + key + "_" + str(year) + ".asc.gz"
 
             if not os.path.isfile(path_to_file):
-                with open(path_to_file, "w") as _:
+                with gzip.open(path_to_file, "wt") as _:
                     _.write(header)
                     write_row_to_grids.list_of_output_files[setup_id].append(path_to_file)
 
-            with open(path_to_file, "a") as file_:
+            with gzip.open(path_to_file, "at") as file_:
                 write_nodata_rows(file_)
                 rowstr = " ".join(["-9999" if int(x) == -9999 else mold(x) for x in row_arr])
                 file_.write(rowstr +  "\n")
@@ -227,7 +228,7 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
     and write_row_to_grids.list_of_output_files[setup_id] \
     and write_row_to_grids.nodata_row_count[setup_id] > 0:
         for path_to_file in write_row_to_grids.list_of_output_files[setup_id]:
-            with open(path_to_file, "a") as file_:
+            with gzip.open(path_to_file, "at") as file_:
                 write_nodata_rows(file_)
         write_row_to_grids.nodata_row_count[setup_id] = 0
     
