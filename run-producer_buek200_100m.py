@@ -190,7 +190,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
         "doys": defaultdict(list)
     }
     path_to_mow_grid_dir = paths["path-to-climate-dir"] + "management/sattgruen_cutting_dates/"
-    mow_metadata, _ = Mrunlib.read_header(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=cutting_year_start))
+    mow_metadata, _ = Mrunlib.read_header(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=2017))
     for year in range(cutting_year_start, cutting_year_end+1):
         if year == 2016:
             continue
