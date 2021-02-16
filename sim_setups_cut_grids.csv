@@ -1,2 +1,2 @@
 run-id,sim.json,crop.json,site.json,climate_data,climate_model,climate_scenario,climate_region,start_year,end_year,groundwater-level,impenetrable-layer,elevation,slope,latitude,landcover,fertilization,NitrogenResponseOn,irrigation,WaterDeficitResponseOn,EmergenceMoistureControlOn,EmergenceFloodingControlOn,LeafExtensionModifier,CO2,O3
-1,sim.json,crop_template.json,site.json,dwd,,,germany,2017,2019,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,
+1,sim.json,crop_template.json,site.json,dwd,,,germany,2016,2019,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,

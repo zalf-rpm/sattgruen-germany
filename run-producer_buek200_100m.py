@@ -177,7 +177,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     ## note numpy is able to load from a compressed file, ending with .gz or .bz2
 
     # cutting grids
-    cutting_year_start = 2017
+    cutting_year_start = 2016
     cutting_year_end = 2019
     band_start = 0
     band_end = 9
@@ -192,6 +192,8 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
     path_to_mow_grid_dir = paths["path-to-climate-dir"] + "management/sattgruen_cutting_dates/"
     mow_metadata, _ = Mrunlib.read_header(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=cutting_year_start))
     for year in range(cutting_year_start, cutting_year_end+1):
+        if year == 2016:
+            continue
         mow_grids["no_of_cuts"][year] = np.loadtxt(path_to_mow_grid_dir + mow_grid_subfilepath["no_of_cuts"].format(year=year), dtype=int, skiprows=6)
         print("no_cuts mow_grid loaded for", year, flush=True)
         for band in range(band_start, band_end+1):
@@ -199,7 +201,11 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
             print("doys mow_grid loaded for", year, "and band", band, flush=True)
     #mow_gk3_interpolate = Mrunlib.create_ascii_grid_interpolator(mow_grids["no_of_cuts"][cutting_year_start], mow_metadata, return_row_col=True)
     print("mow_grid row col interpolator created", flush=True)
-    
+
+    # copy 2017 and use for 2016    
+    mow_grids["no_of_cuts"][2016] = mow_grids["no_of_cuts"][2017]
+    mow_grids["doys"][2016] = mow_grids["doys"][2017]
+
     # height data for germany
     path_to_dem_grid = paths["path-to-data-dir"] + DATA_GRID_HEIGHT 
     dem_metadata, _ = Mrunlib.read_header(path_to_dem_grid)
