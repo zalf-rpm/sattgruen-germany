@@ -287,7 +287,7 @@ def run_consumer(leave_after_finished_run = True, server = {"server": None, "por
     #soil_grid_template[soil_grid_template > 71] = -9999
     #set all data values to one, to count them later
 
-  if USE_CORINE:
+    if USE_CORINE:
         path_to_corine_grid = TEMPLATE_CORINE_PATH.format(local_path_to_data_dir=paths["path-to-data-dir"])
         corine_meta, _ = Mrunlib.read_header(path_to_corine_grid)
         corine_grid = np.loadtxt(path_to_corine_grid, dtype=int, skiprows=6)
