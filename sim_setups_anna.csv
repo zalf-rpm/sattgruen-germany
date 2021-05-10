@@ -1,4 +1,4 @@
 run-id,sim.json,crop.json,site.json,climate_data,climate_model,climate_scenario,climate_region,start_year,end_year,groundwater-level,impenetrable-layer,elevation,slope,latitude,landcover,fertilization,NitrogenResponseOn,irrigation,WaterDeficitResponseOn,EmergenceMoistureControlOn,EmergenceFloodingControlOn,LeafExtensionModifier,CO2,O3
-1,sim_anna.json,crop_cut3_anna.json,site.json,dwd,,,germany_ubn_1901-2018_unzipped,1980,2019,FALSE,FALSE,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,
-2,sim_anna.json,crop_cut2_anna.json,site.json,dwd,,,germany_ubn_1901-2018_unzipped,1980,2019,FALSE,FALSE,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,
-3,sim_anna.json,crop_cut1_anna.json,site.json,dwd,,,germany_ubn_1901-2018_unzipped,1980,2019,FALSE,FALSE,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,
+1,sim_anna.json,crop_cut3_anna.json,site.json,dwd,,,germany_ubn_1901-2018_unzipped,1980,2019,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,
+2,sim_anna.json,crop_cut2_anna.json,site.json,dwd,,,germany_ubn_1901-2018_unzipped,1980,2019,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,
+3,sim_anna.json,crop_cut1_anna.json,site.json,dwd,,,germany_ubn_1901-2018_unzipped,1980,2019,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,360,

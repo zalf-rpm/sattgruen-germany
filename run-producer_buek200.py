@@ -94,7 +94,7 @@ SETUP_FILE = "sim_setups_anna.csv"
 DATA_SOIL_DB = "germany/buek200.sqlite"
 DATA_GRID_HEIGHT = "germany/dem_1000_gk5.asc" 
 DATA_GRID_SLOPE = "germany/slope_1000_gk5.asc"
-DATA_GRID_LAND_USE = "germany/corine2006_1000_gk5.asc"
+DATA_GRID_LAND_USE = "germany/landuse_1000_gk5.ascc"
 DATA_GRID_SOIL = "germany/BUEK200_1000_gk5.asc"
 TEMPLATE_PATH_LATLON = "{path_to_climate_dir}{climate_data}/csvs/latlon-to-rowcol.json"
 TEMPLATE_PATH_CLIMATE_CSV = "{climate_data}/csvs/{climate_model_folder}{climate_scenario_folder}{climate_region}/row-{crow}/col-{ccol}.csv"
@@ -296,7 +296,7 @@ def run_producer(server = {"server": None, "port": None}, shared_id = None):
                 # check if current grid cell is used for agriculture                
                 if setup["landcover"]:
                     corine_id = corine_gk5_interpolate(sr_gk5, sh_gk5)
-                    if corine_id not in [200, 210, 211, 212, 240, 241, 242, 243, 244]:
+                    if corine_id not in [1]:
                         continue
 
                 height_nn = dem_gk5_interpolate(sr_gk5, sh_gk5)

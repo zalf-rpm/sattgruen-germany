@@ -65,6 +65,8 @@ PATHS = {
 DEFAULT_HOST = "login01.cluster.zalf.de" #"localhost"
 DEFAULT_PORT = "7780"
 TEMPLATE_SOIL_PATH = "{local_path_to_data_dir}germany/BUEK200_1000_gk5.asc"
+TEMPLATE_CORINE_PATH = "{local_path_to_data_dir}germany/landuse_1000_gk5.asc"
+USE_CORINE = True
 
 def create_output(result):
     "create output structure for single run"
